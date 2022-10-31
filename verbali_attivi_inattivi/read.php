@@ -26,8 +26,21 @@ if($num>0){
     $verbali_arr = array();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+        if($row['stato_verbali']==0){
+            $row['stato_verbali'] = 'Attivi';
+        }
+
+        if($row['stato_verbali']==1){
+            $row['stato_verbali'] = 'Archiviati';
+        }
+
+        if($row['stato_verbali']==2){
+            $row['stato_verbali'] = 'Annullati';
+        }
+
         $table_item = array(
-            "tipo_verbali" => $row['tipo_verbali'],
+            "stato_verbali" => $row['stato_verbali'],
             "num_verbali" => $row['num_verbali'],
         );
         array_push($verbali_arr, $table_item);
