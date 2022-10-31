@@ -27,9 +27,9 @@ if($num>0){
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
         $table_item = array(
-            "via" => $row['via'],
-            "comune" => $row['comune'],
-            "num_verbali_via" => $row['num_verbali_via'],
+            "tipo_strada" => $row['tipo_strada'],
+            "nome_strada" => $row['nome_strada'],
+            "num_verbali" => $row['num_verbali'],
         );
         array_push($verbali_arr, $table_item);
     }
