@@ -27,11 +27,11 @@ if($num>0){
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
         $table_item = array(
-            "nome" => $row['nome'],
-            "cognome" => $row['cognome'],
-            "grado" => $row['grado'],
-            "matricola" => $row['matricola'],
-            "num_verbali_agente" => $row['num_verbali_agente']
+            "nome_agente" => $row['nome_agente'],
+            "cognome_agente" => $row['cognome_agente'],
+            "grado_agente" => $row['grado_agente'],
+            "matricola_agente" => $row['matricola_agente'],
+            "num_verbali" => $row['num_verbali']
         );
         array_push($verbali_arr, $table_item);
     }
