@@ -5,12 +5,15 @@ class VerbaliPreavviso
 	{
 
 	private $conn;
-	private $table_name = "verbali_by_preavviso";
+	private $table_name_1 = "db2_bollettario";
+	private $table_name_2 = "db2_infrazione";
+	private $table_name_3 = "articoli_new";
 	// campi di verbali_by_articolo
 	public $cronologico;
 	public $numero_verbale;
-    public $data;
+    public $data_verbale;
 	public $articolo;
+	public $anno_verbale;
 
 	// costruttore
 	public function __construct($db)
@@ -22,7 +25,12 @@ class VerbaliPreavviso
 	function read()
 		{
 		// select all
-		$query = "SELECT cronologico, numero_verbale, data, articolo FROM " . $this->table_name;
+		$query = "SELECT b.num_ordine_bollettario as cronologico, b.numero_bollettario as numero_verbale, b.anno_bollettario as anno_verbale, CAST(data_verbale_bollettario AS date) as data_verbale, a.Descrizione as articolo
+		FROM $this->table_name_1 as b
+		INNER JOIN $this->table_name_2 as i on b.id_bollettario = i.id_bollettario_infrazione
+		INNER JOIN $this->table_name_3 as a on i.Cod_Articolo_infrazione = a.id_articolo
+		ORDER BY data_verbale DESC
+		LIMIT 20";
 		$stmt = $this->conn->prepare($query);
 		// execute query
 		$stmt->execute();

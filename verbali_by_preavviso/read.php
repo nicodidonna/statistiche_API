@@ -26,10 +26,14 @@ if($num>0){
     $verbali_arr = array();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+        $row['cronologico'] = $row['cronologico']."/".$row['anno_verbale'];
+        $row['numero_verbale'] = $row['numero_verbale']."/".$row['anno_verbale'];
+
         $table_item = array(
             "cronologico" => $row['cronologico'],
             "numero_verbale" => $row['numero_verbale'],
-            "data" => $row['data'],
+            "data_verbale" => $row['data_verbale'],
             "articolo" => $row['articolo']
         );
         array_push($verbali_arr, $table_item);
