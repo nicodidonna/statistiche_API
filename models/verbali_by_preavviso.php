@@ -29,8 +29,7 @@ class VerbaliPreavviso
 		FROM $this->table_name_1 as b
 		INNER JOIN $this->table_name_2 as i on b.id_bollettario = i.id_bollettario_infrazione
 		INNER JOIN $this->table_name_3 as a on i.Cod_Articolo_infrazione = a.id_articolo
-		ORDER BY data_verbale DESC
-		LIMIT 20";
+		ORDER BY data_verbale DESC";
 		$stmt = $this->conn->prepare($query);
 		// execute query
 		$stmt->execute();
