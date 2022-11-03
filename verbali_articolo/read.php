@@ -15,8 +15,12 @@ $db = $database->getConnection();
 // Creiamo un nuovo oggetto VerbaliArticolo e passiamoli la connessione
 $verbali_articolo = new VerbaliArticolo($db);
 
+//prendo i parametri dall'url
+$param = $_GET['data_inizio'];
+$param2 = $_GET['data_fine'];
+
 // query products
-$stmt = $verbali_articolo->read();
+$stmt = $verbali_articolo->read($param, $param2);
 $num = $stmt->rowCount();
 
 // se ci sono righe di risultato nel database
