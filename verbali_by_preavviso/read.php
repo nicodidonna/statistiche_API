@@ -12,11 +12,15 @@ include_once '../models/verbali_by_preavviso.php';
 $database = new Database();
 $db = $database->getConnection();
 
-// Creiamo un nuovo oggetto Libro
+// Creiamo un nuovo oggetto VerbaliPreavviso e passiamoli la connessione
 $verbali_preavviso = new VerbaliPreavviso($db);
 
+//prendo i parametri dall'url
+$param = $_GET['data_inizio'];
+$param2 = $_GET['data_fine'];
+
 // query products
-$stmt = $verbali_preavviso->read();
+$stmt = $verbali_preavviso->read($param, $param2);
 $num = $stmt->rowCount();
 
 // se vengono trovati libri nel database
