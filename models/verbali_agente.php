@@ -24,7 +24,7 @@ class VerbaliAgente
 	function read($dataInizio, $dataFine)
 		{
 		// select all
-		$query = "SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(id_bollettario) as num_verbali, b.data_verbale_bollettario as data_verbale
+		$query = "SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(id_bollettario) as num_verbali
 		FROM $this->table_name_1 as b
 		INNER JOIN $this->table_name_2 as a on b.id_agente_assegn_bollettario = a.id_agente
 		WHERE b.data_verbale_bollettario BETWEEN '$dataInizio' AND '$dataFine'
