@@ -12,11 +12,16 @@ include_once '../models/verbali_attivi_inattivi.php';
 $database = new Database();
 $db = $database->getConnection();
 
-// Creiamo un nuovo oggetto Libro
+// Creiamo un nuovo oggetto VerbaliAttiviInattivi e passiamoli la connessione
 $verbali_attivi_inattivi = new VerbaliAttiviInattivi($db);
 
+//prendo i parametri dall'url
+$param = $_GET['data_inizio'];
+$param2 = $_GET['data_fine'];
+
+
 // query products
-$stmt = $verbali_attivi_inattivi->read();
+$stmt = $verbali_attivi_inattivi->read($param, $param2);
 $num = $stmt->rowCount();
 
 // se vengono trovati libri nel database
