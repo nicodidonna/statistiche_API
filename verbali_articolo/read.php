@@ -43,7 +43,7 @@ if($num>0){
 }else{ 
 
     http_response_code(404); 
-    echo json_encode( array("message" => "Nessun verbale by articolo trovato sul Database.") ); 
+    echo json_encode( array("message" => "La ricerca di Verbali per Articolo non ha prodotto nessun risultato.") ); 
 
 }
 

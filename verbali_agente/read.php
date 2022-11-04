@@ -46,7 +46,7 @@ if($num>0){
 }else{ 
 
     http_response_code(404); 
-    echo json_encode( array("message" => "Nessun verbale by agente trovato sul Database.") ); 
+    echo json_encode( array("message" => "La ricerca di Verbali per Agente non ha prodotto nessun risultato.") ); 
 
 }
 
