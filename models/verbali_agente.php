@@ -21,14 +21,15 @@ class VerbaliAgente
 		}
 
 	// READ verbali_by_articolo
-	function read()
+	function read($dataInizio, $dataFine)
 		{
 		// select all
-		$query = "SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(id_bollettario) as num_verbali
-		FROM $this->table_name_1 AS b
-		INNER JOIN $this->table_name_2 AS a ON b.id_agente_assegn_bollettario = a.id_agente
+		$query = "SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(id_bollettario) as num_verbali, b.data_verbale_bollettario as data_verbale
+		FROM $this->table_name_1 as b
+		INNER JOIN $this->table_name_2 as a on b.id_agente_assegn_bollettario = a.id_agente
+		WHERE b.data_verbale_bollettario BETWEEN '$dataInizio' AND '$dataFine'
 		GROUP BY a.matricola_agente
-		ORDER BY num_verbali DESC";
+		ORDER BY num_verbali DESC;";
 		$stmt = $this->conn->prepare($query);
 		// execute query
 		$stmt->execute();
