@@ -13,10 +13,13 @@ $database = new Database();
 $db = $database->getConnection();
 
 // Creiamo un nuovo oggetto VerbaliArticolo e passiamoli la connessione
-$verbali_articolo = new VerbaliArticolo($db);
+$verbali_calendario = new VerbaliCalendario($db);
+
+//prendo i parametri dall'url
+$param = $_GET['articolo'];
 
 // query products
-$stmt = $verbali_articolo->read();
+$stmt = $verbali_calendario->read($param);
 $num = $stmt->rowCount();
 
 // se ci sono righe di risultato nel database
@@ -47,7 +50,7 @@ if($num>0){
 }else{ 
 
     http_response_code(404); 
-    echo json_encode( array("message" => "La ricerca di Verbali per Articolo non ha prodotto nessun risultato.") ); 
+    echo json_encode( array("message" => "La ricerca di Verbali non ha prodotto nessun risultato.") ); 
 
 }
 
