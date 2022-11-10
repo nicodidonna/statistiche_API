@@ -20,7 +20,7 @@ class ListaArticoli
 	function read()
 		{
 		// select all
-		$query = "SELECT a.descrizione AS articolo
+		$query = "SELECT DISTINCT a.descrizione AS articolo
         FROM $this->table_name AS a";
 		$stmt = $this->conn->prepare($query);
 		// execute query
