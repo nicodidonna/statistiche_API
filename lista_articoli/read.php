@@ -34,7 +34,7 @@ if($num>0){
     }
 
     http_response_code(200); 
-    echo json_encode($articoli_arr);
+    echo json_encode($articoli_arr, JSON_NUMERIC_CHECK); //ENCODIAMO articoli_arr IN UN JSON, JSON_NUMERIC_CHECK SERVE A NON FAR TRASFORMARE I NUMERI IN STRINGHE NELLA CONVERSIONE
 
 }else{ 
 

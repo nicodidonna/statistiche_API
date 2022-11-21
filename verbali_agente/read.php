@@ -41,7 +41,7 @@ if($num>0){
     }
 
     http_response_code(200); 
-    echo json_encode($verbali_arr);
+    echo json_encode($verbali_arr, JSON_NUMERIC_CHECK); //ENCODIAMO verbali_arr IN UN JSON, JSON_NUMERIC_CHECK SERVE A NON FAR TRASFORMARE I NUMERI IN STRINGHE NELLA CONVERSIONE
 
 }else{ 
 
