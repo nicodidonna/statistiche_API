@@ -8,19 +8,24 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/totale_verbali.php';
 
-// creiamo un nuovo oggetto Database e ci colleghiamo al nostro database
-$database = new Database();
-$db = $database->getConnection();
-
 // Creiamo un nuovo oggetto TotaleVerbali e passiamoli la connessione
-$totale_verbali = new TotaleVerbali($db);
+$totale_verbali = new TotaleVerbali();
 
 //prendo i parametri dall'url
-$param = $_GET['data_inizio'];
-$param2 = $_GET['data_fine'];
+if ( isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
+
+    $param = $_GET['data_inizio'];
+    $param2 = $_GET['data_fine'];
+    $stmt = $totale_verbali->read($param, $param2);
+
+} else {
+
+    $stmt = $totale_verbali->read();
+
+}
+
 
 // query products
-$stmt = $totale_verbali->read($param, $param2);
 $num = $stmt->rowCount();
 
 // se ci sono righe di risultato nel database

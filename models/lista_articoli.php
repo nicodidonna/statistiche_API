@@ -11,9 +11,9 @@ class ListaArticoli
 	public $num_verbali;
 
 	// costruttore
-	public function __construct($db)
+	public function __construct()
 		{
-		$this->conn = $db;
+		$this->conn = Database::getInstance();
 		}
 
 	// READ verbali_by_articolo
@@ -22,6 +22,7 @@ class ListaArticoli
 		// select all
 		$query = "SELECT DISTINCT a.descrizione AS articolo
         FROM $this->table_name AS a";
+		
 		$stmt = $this->conn->prepare($query);
 		// execute query
 		$stmt->execute();

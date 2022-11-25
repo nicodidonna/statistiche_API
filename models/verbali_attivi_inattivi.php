@@ -11,24 +11,40 @@ class VerbaliAttiviInattivi
 	public $num_verbali;
 
 	// costruttore
-	public function __construct($db)
+	public function __construct()
 		{
-		$this->conn = $db;
+		$this->conn = Database::getInstance();
 		}
 
 	// READ verbali_by_articolo
-	function read($param, $param2)
+	function read($dataInizio = null, $dataFine = null)
 		{
-		// select all
-		$query = "SELECT stato_archivio_verbale_bollettario as stato_verbali, count(id_bollettario) as num_verbali
-		FROM $this->table_name
-		WHERE data_verbale_bollettario between '$param' and '$param2'
-		GROUP BY stato_archivio_verbale_bollettario
-		ORDER BY num_verbali DESC";
-		$stmt = $this->conn->prepare($query);
-		// execute query
-		$stmt->execute();
-		return $stmt;
+
+			if($dataInizio != null and $dataFine != null) {
+
+				// select all
+				$query = "SELECT stato_archivio_verbale_bollettario as stato_verbali, count(id_bollettario) as num_verbali
+				FROM $this->table_name
+				WHERE data_verbale_bollettario between '$dataInizio' and '$dataFine'
+				GROUP BY stato_archivio_verbale_bollettario
+				ORDER BY num_verbali DESC";
+
+			} else {
+
+				// select all
+				$query = "SELECT stato_archivio_verbale_bollettario as stato_verbali, count(id_bollettario) as num_verbali
+				FROM $this->table_name
+				WHERE data_verbale_bollettario <= CURDATE()
+				GROUP BY stato_archivio_verbale_bollettario
+				ORDER BY num_verbali DESC";
+
+			}
+			
+			$stmt = $this->conn->prepare($query);
+			// execute query
+			$stmt->execute();
+			return $stmt;
+			
 		}
 
 	}

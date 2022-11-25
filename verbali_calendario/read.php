@@ -4,22 +4,27 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-// includiamo database.php e libro.php per poterli usare
+// includiamo database.php e verbali_calendario.php per poterli usare
 include_once '../config/db.php';
 include_once '../models/verbali_calendario.php';
 
-// creiamo un nuovo oggetto Database e ci colleghiamo al nostro database
-$database = new Database();
-$db = $database->getConnection();
-
 // Creiamo un nuovo oggetto VerbaliArticolo e passiamoli la connessione
-$verbali_calendario = new VerbaliCalendario($db);
+$verbali_calendario = new VerbaliCalendario();
 
-//prendo i parametri dall'url
-$param = $_GET['articolo'];
+if ( isset($_GET['articolo']) ){
+
+    //prendo i parametri dall'url
+    $param = $_GET['articolo'];
+    $stmt = $verbali_calendario->read($param);
+
+} else {
+
+    $stmt = $verbali_calendario->read();
+
+}
+
 
 // query products
-$stmt = $verbali_calendario->read($param);
 $num = $stmt->rowCount();
 
 // se ci sono righe di risultato nel database

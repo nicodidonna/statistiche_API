@@ -8,20 +8,25 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/verbali_attivi_inattivi.php';
 
-// creiamo un nuovo oggetto Database e ci colleghiamo al nostro database
-$database = new Database();
-$db = $database->getConnection();
-
 // Creiamo un nuovo oggetto VerbaliAttiviInattivi e passiamoli la connessione
-$verbali_attivi_inattivi = new VerbaliAttiviInattivi($db);
+$verbali_attivi_inattivi = new VerbaliAttiviInattivi();
 
 //prendo i parametri dall'url
-$param = $_GET['data_inizio'];
-$param2 = $_GET['data_fine'];
+if (isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
+
+    //prendo i parametri dall'url
+    $param = $_GET['data_inizio'];
+    $param2 = $_GET['data_fine'];
+    $stmt = $verbali_attivi_inattivi->read($param, $param2);
+
+} else {
+        
+    $stmt = $verbali_attivi_inattivi->read();
+
+}
 
 
 // query products
-$stmt = $verbali_attivi_inattivi->read($param, $param2);
 $num = $stmt->rowCount();
 
 // se vengono trovati libri nel database

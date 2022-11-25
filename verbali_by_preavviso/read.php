@@ -4,23 +4,27 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-// includiamo database.php e libro.php per poterli usare
+// includiamo database.php e verbali_by_preavviso.php per poterli usare
 include_once '../config/db.php';
 include_once '../models/verbali_by_preavviso.php';
 
-// creiamo un nuovo oggetto Database e ci colleghiamo al nostro database
-$database = new Database();
-$db = $database->getConnection();
-
 // Creiamo un nuovo oggetto VerbaliPreavviso e passiamoli la connessione
-$verbali_preavviso = new VerbaliPreavviso($db);
+$verbali_preavviso = new VerbaliPreavviso();
 
-//prendo i parametri dall'url
-$param = $_GET['data_inizio'];
-$param2 = $_GET['data_fine'];
+if (isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
+
+    //prendo i parametri dall'url
+    $param = $_GET['data_inizio'];
+    $param2 = $_GET['data_fine'];
+    $stmt = $verbali_preavviso->read($param, $param2);
+
+} else {
+
+    $stmt = $verbali_preavviso->read();
+
+}
 
 // query products
-$stmt = $verbali_preavviso->read($param, $param2);
 $num = $stmt->rowCount();
 
 // se vengono trovati libri nel database

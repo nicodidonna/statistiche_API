@@ -4,23 +4,27 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-// includiamo database.php e libro.php per poterli usare
+// includiamo database.php e verbali_via.php per poterli usare
 include_once '../config/db.php';
 include_once '../models/verbali_via.php';
 
-// creiamo un nuovo oggetto Database e ci colleghiamo al nostro database
-$database = new Database();
-$db = $database->getConnection();
-
 // Creiamo un nuovo oggetto VerbaliVia e passiamoli la connessione
-$verbali_via = new VerbaliVia($db);
+$verbali_via = new VerbaliVia();
 
-//prendo i parametri dall'url
-$param = $_GET['data_inizio'];
-$param2 = $_GET['data_fine'];
+if (isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
+
+    //prendo i parametri dall'url
+    $param = $_GET['data_inizio'];
+    $param2 = $_GET['data_fine'];
+    $stmt = $verbali_via->read($param, $param2);
+
+} else {
+
+    $stmt = $verbali_via->read();
+
+}
 
 // query products
-$stmt = $verbali_via->read($param, $param2);
 $num = $stmt->rowCount();
 
 // se vengono trovati libri nel database

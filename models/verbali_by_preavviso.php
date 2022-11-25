@@ -16,25 +16,42 @@ class VerbaliPreavviso
 	public $anno_verbale;
 
 	// costruttore
-	public function __construct($db)
+	public function __construct()
 		{
-		$this->conn = $db;
+		$this->conn = Database::getInstance();
 		}
 
-	// READ verbali_by_articolo
-	function read($param, $param2)
+	// READ verbali_by_preavviso
+	function read($dataInizio = null, $dataFine = null)
 		{
+
+
 		// select all
-		$query = "SELECT b.num_ordine_bollettario as cronologico, b.numero_bollettario as numero_verbale, b.anno_bollettario as anno_verbale, CAST(data_verbale_bollettario AS date) as data_verbale, a.Descrizione as articolo
-		FROM $this->table_name_1 as b
-		INNER JOIN $this->table_name_2 as i on b.id_bollettario = i.id_bollettario_infrazione
-		INNER JOIN $this->table_name_3 as a on i.Cod_Articolo_infrazione = a.id_articolo
-		WHERE b.data_verbale_bollettario between '$param' and '$param2'
-		ORDER BY data_verbale DESC";
+		if ($dataInizio != null and $dataFine != null) {
+
+			$query = "SELECT b.num_ordine_bollettario as cronologico, b.numero_bollettario as numero_verbale, b.anno_bollettario as anno_verbale, CAST(data_verbale_bollettario AS date) as data_verbale, a.Descrizione as articolo
+					  FROM $this->table_name_1 as b
+					  INNER JOIN $this->table_name_2 as i on b.id_bollettario = i.id_bollettario_infrazione
+					  INNER JOIN $this->table_name_3 as a on i.Cod_Articolo_infrazione = a.id_articolo
+					  WHERE b.data_verbale_bollettario between '$dataInizio' and '$dataFine'
+					  ORDER BY data_verbale DESC";
+
+		} else {
+
+			$query = "SELECT b.num_ordine_bollettario as cronologico, b.numero_bollettario as numero_verbale, b.anno_bollettario as anno_verbale, CAST(data_verbale_bollettario AS date) as data_verbale, a.Descrizione as articolo
+					  FROM $this->table_name_1 as b
+					  INNER JOIN $this->table_name_2 as i on b.id_bollettario = i.id_bollettario_infrazione
+					  INNER JOIN $this->table_name_3 as a on i.Cod_Articolo_infrazione = a.id_articolo
+					  WHERE b.data_verbale_bollettario <= CURDATE()
+					  ORDER BY data_verbale DESC";
+
+		}
+		
 		$stmt = $this->conn->prepare($query);
 		// execute query
 		$stmt->execute();
 		return $stmt;
+
 		}
 
 	}
