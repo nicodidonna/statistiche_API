@@ -10,7 +10,7 @@ class Database
 
 
     /* Istanza unica del singleton* @var object */
-    private static object $instance;
+    private static $instance;
 
     /* Costruttore privato per prevenire che venga istanziato da codice esterno. */
     private function __construct()
