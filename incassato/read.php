@@ -16,21 +16,22 @@ if( isset($_GET['tipoRead']) ){
 
     $GLOBALS['tipoRead'] = $_GET['tipoRead'];
 
-    $stmt = $incassato->read($GLOBALS['tipoRead']);
+    if ( isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
+
+        //prendo i parametri dall'url
+        $param = $_GET['data_inizio'];
+        $param2 = $_GET['data_fine'];
+        
+
+        $stmt = $incassato->read($GLOBALS['tipoRead'],$param,$param2);
+
+    } else {
+        
+        $stmt = $incassato->read($GLOBALS['tipoRead']);
+
+    }
 
 }
-
-// if ( isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
-//     //prendo i parametri dall'url
-//     $param = $_GET['data_inizio'];
-//     $param2 = $_GET['data_fine'];
-//     $stmt = $verbali_agente->read($param, $param2);
-
-// } else {
-
-//     $stmt = $verbali_agente->read();
-
-// }
 
 // query products
 $num = $stmt->rowCount();
