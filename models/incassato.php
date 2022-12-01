@@ -24,7 +24,7 @@ class Incassato
                 //query
                 $query = "SELECT importo_pagamento_verbale_bollettario, spese_notifica_verbale_bollettario, spese_stampa_verbale_bollettario
                 FROM $this->table_name_1
-                WHERE data_pagamento_verbale_bollettario IS NOT NULL";
+                WHERE data_pagamento_verbale_bollettario IS NOT NULL AND stato_archivio_verbale_bollettario = 0";
 
             }
 
@@ -33,7 +33,7 @@ class Incassato
                 //query
                 $query = "SELECT importo_pagamento_verbale_bollettario_pr, spese_notifica_verbale_bollettario_pr, spese_stampa_verbale_bollettario_pr
                 FROM $this->table_name_2
-                WHERE data_pagamento_verbale_bollettario_pr IS NOT NULL";
+                WHERE data_pagamento_verbale_bollettario_pr IS NOT NULL AND stato_archivio_verbale_bollettario_pr = 0";
 
             }
             
