@@ -29,7 +29,7 @@ class Accertato
                     INNER JOIN db2_infrazione as i on i.id_bollettario_infrazione = b.id_bollettario
                     INNER JOIN articoli_new as a on a.id_articolo = i.Cod_Articolo_infrazione
                     INNER JOIN istat2021 as istat on istat.id_articolo = a.id_articolo
-                    WHERE b.stato_archivio_verbale_bollettario = 0 AND istat.Imp_Ridotto_60gg_euro IS NOT NULL AND b.data_verbale_bollettario BETWEEN '$dataInizio' AND '$dataFine'; ";
+                    WHERE b.stato_archivio_verbale_bollettario = 0 AND istat.Imp_Ridotto_60gg_euro IS NOT NULL AND CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataInizio' AND '$dataFine'; ";
 
                 } else {
 
@@ -39,7 +39,7 @@ class Accertato
                     INNER JOIN db2_infrazione as i on i.id_bollettario_infrazione = b.id_bollettario
                     INNER JOIN articoli_new as a on a.id_articolo = i.Cod_Articolo_infrazione
                     INNER JOIN istat2021 as istat on istat.id_articolo = a.id_articolo
-                    WHERE b.stato_archivio_verbale_bollettario = 0 AND istat.Imp_Ridotto_60gg_euro IS NOT NULL AND b.data_verbale_bollettario <= CURDATE(); ";
+                    WHERE b.stato_archivio_verbale_bollettario = 0 AND istat.Imp_Ridotto_60gg_euro IS NOT NULL AND CAST(b.data_verbale_bollettario AS DATE) <= CURDATE(); ";
 
                 }
 
@@ -52,20 +52,21 @@ class Accertato
                     //query
                     $query = "SELECT istat.Imp_Ridotto_60gg_euro
                     FROM db6_bollettario_pr as b
-                    INNER JOIN db2_infrazione as i on i.id_bollettario_infrazione = b.id_bollettario_pr
-                    INNER JOIN articoli_new as a on a.id_articolo = i.Cod_Articolo_infrazione
+                    INNER JOIN db6_infrazione_pr as i on i.id_bollettario_infrazione_pr = b.id_bollettario_pr
+                    INNER JOIN articoli_new as a on a.id_articolo = i.Cod_Articolo_infrazione_pr
                     INNER JOIN istat2021 as istat on istat.id_articolo = a.id_articolo
-                    WHERE b.stato_archivio_verbale_bollettario_pr = 0 AND istat.Imp_Ridotto_60gg_euro IS NOT NULL AND b.data_verbale_bollettario_pr BETWEEN '$dataInizio' AND '$dataFine';";
+                    WHERE b.stato_archivio_verbale_bollettario_pr = 0 AND istat.Imp_Ridotto_60gg_euro IS NOT NULL AND CAST(b.data_verbale_bollettario_pr AS DATE) BETWEEN '$dataInizio' AND '$dataFine'
+                    order by b.data_verbale_bollettario_pr";
 
                 } else {
 
                     //query
                     $query = "SELECT istat.Imp_Ridotto_60gg_euro
                     FROM db6_bollettario_pr as b
-                    INNER JOIN db2_infrazione as i on i.id_bollettario_infrazione = b.id_bollettario_pr
-                    INNER JOIN articoli_new as a on a.id_articolo = i.Cod_Articolo_infrazione
+                    INNER JOIN db6_infrazione_pr as i on i.id_bollettario_infrazione_pr = b.id_bollettario_pr
+                    INNER JOIN articoli_new as a on a.id_articolo = i.Cod_Articolo_infrazione_pr
                     INNER JOIN istat2021 as istat on istat.id_articolo = a.id_articolo
-                    WHERE b.stato_archivio_verbale_bollettario_pr = 0 AND istat.Imp_Ridotto_60gg_euro IS NOT NULL AND b.data_verbale_bollettario_pr <= CURDATE(); ";
+                    WHERE b.stato_archivio_verbale_bollettario_pr = 0 AND istat.Imp_Ridotto_60gg_euro IS NOT NULL AND CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE(); ";
 
                 }
 

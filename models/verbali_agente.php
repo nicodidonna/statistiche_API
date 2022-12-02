@@ -30,14 +30,14 @@ class VerbaliAgente
             $query = "SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(b.id_bollettario) as num_verbali
                       FROM $this->table_name_1 as b
                       INNER JOIN $this->table_name_2 as a on b.id_agente_assegn_bollettario = a.id_agente
-                      WHERE b.data_verbale_bollettario BETWEEN '$dataInizio' AND '$dataFine'
+                      WHERE CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataInizio' AND '$dataFine' AND b.stato_archivio_verbale_bollettario = 0
                       GROUP BY a.matricola_agente
                       ORDER BY num_verbali DESC";
         } else {
             $query = "SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(b.id_bollettario) as num_verbali
                       FROM $this->table_name_1 as b
                       INNER JOIN $this->table_name_2 as a on b.id_agente_assegn_bollettario = a.id_agente
-                      WHERE DATE(b.data_verbale_bollettario) <= CURDATE()
+                      WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0
                       GROUP BY a.matricola_agente
                       ORDER BY num_verbali DESC";
         }

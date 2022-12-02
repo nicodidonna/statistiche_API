@@ -29,7 +29,7 @@ class VerbaliArticolo
 				FROM $this->table_name_1 as i
 				INNER JOIN $this->table_name_2 as a on i.Cod_Articolo_infrazione = a.id_articolo
 				INNER JOIN $this->table_name_3 as b on i.id_bollettario_infrazione = b.id_bollettario
-				WHERE DATE(b.data_verbale_bollettario) between '$dataInizio' and '$dataFine'
+				WHERE CAST(b.data_verbale_bollettario AS DATE) between '$dataInizio' and '$dataFine' AND b.stato_archivio_verbale_bollettario = 0
 				GROUP BY a.descrizione
 				ORDER BY num_verbali desc";
 
@@ -40,7 +40,7 @@ class VerbaliArticolo
 				FROM $this->table_name_1 as i
 				INNER JOIN $this->table_name_2 as a on i.Cod_Articolo_infrazione = a.id_articolo
 				INNER JOIN $this->table_name_3 as b on i.id_bollettario_infrazione = b.id_bollettario
-				WHERE DATE(b.data_verbale_bollettario) <= CURDATE()
+				WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0
 				GROUP BY a.descrizione
 				ORDER BY num_verbali desc";
 

@@ -24,16 +24,16 @@ class Incassato
 				if ($dataInizio != null and $dataFine != null) {
 
 					//query
-					$query = "SELECT importo_pagamento_verbale_bollettario, spese_notifica_verbale_bollettario, spese_stampa_verbale_bollettario
-					FROM db2_bollettario
-					WHERE data_pagamento_verbale_bollettario IS NOT NULL AND stato_archivio_verbale_bollettario = 0 AND data_verbale_bollettario BETWEEN '$dataInizio' AND '$dataFine'; ";
+					$query = "SELECT b.importo_pagamento_verbale_bollettario, b.spese_notifica_verbale_bollettario, b.spese_stampa_verbale_bollettario
+					FROM db2_bollettario AS b
+					WHERE b.data_pagamento_verbale_bollettario IS NOT NULL AND b.stato_archivio_verbale_bollettario = 0 AND CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataInizio' AND '$dataFine'; ";
 
 				} else {
 
 					//query
-					$query = "SELECT importo_pagamento_verbale_bollettario, spese_notifica_verbale_bollettario, spese_stampa_verbale_bollettario
-					FROM db2_bollettario
-					WHERE data_pagamento_verbale_bollettario IS NOT NULL AND stato_archivio_verbale_bollettario = 0 AND data_verbale_bollettario <= CURDATE(); ";
+					$query = "SELECT b.importo_pagamento_verbale_bollettario, b.spese_notifica_verbale_bollettario, b.spese_stampa_verbale_bollettario
+					FROM db2_bollettario AS b
+					WHERE b.data_pagamento_verbale_bollettario IS NOT NULL AND b.stato_archivio_verbale_bollettario = 0 AND CAST(b.data_verbale_bollettario AS DATE) <= CURDATE(); ";
 
 				}
 
@@ -44,16 +44,16 @@ class Incassato
 				if ($dataInizio != null and $dataFine != null) {
 
 					//query
-					$query = "SELECT importo_pagamento_verbale_bollettario_pr, spese_notifica_verbale_bollettario_pr, spese_stampa_verbale_bollettario_pr
-					FROM $this->table_name_2
-					WHERE data_pagamento_verbale_bollettario_pr IS NOT NULL AND stato_archivio_verbale_bollettario_pr = 0 AND data_verbale_bollettario_pr BETWEEN '$dataInizio' AND '$dataFine'; ";
+					$query = "SELECT b.importo_pagamento_verbale_bollettario_pr, b.spese_notifica_verbale_bollettario_pr, b.spese_stampa_verbale_bollettario_pr
+					FROM $this->table_name_2 AS b
+					WHERE b.data_pagamento_verbale_bollettario_pr IS NOT NULL AND b.stato_archivio_verbale_bollettario_pr = 0 AND CAST(b.data_verbale_bollettario_pr AS DATE) BETWEEN '$dataInizio' AND '$dataFine'; ";
 
 				} else {
 
 					//query
-					$query = "SELECT importo_pagamento_verbale_bollettario_pr, spese_notifica_verbale_bollettario_pr, spese_stampa_verbale_bollettario_pr
-					FROM $this->table_name_2
-					WHERE data_pagamento_verbale_bollettario_pr IS NOT NULL AND stato_archivio_verbale_bollettario_pr = 0 AND data_verbale_bollettario_pr <= CURDATE(); ";
+					$query = "SELECT b.importo_pagamento_verbale_bollettario_pr, b.spese_notifica_verbale_bollettario_pr, b.spese_stampa_verbale_bollettario_pr
+					FROM $this->table_name_2 AS b
+					WHERE b.data_pagamento_verbale_bollettario_pr IS NOT NULL AND b.stato_archivio_verbale_bollettario_pr = 0 AND CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE(); ";
 
 				}
 

@@ -23,19 +23,19 @@ class VerbaliAttiviInattivi
 			if($dataInizio != null and $dataFine != null) {
 
 				// select all
-				$query = "SELECT stato_archivio_verbale_bollettario as stato_verbali, count(id_bollettario) as num_verbali
-				FROM $this->table_name
-				WHERE data_verbale_bollettario between '$dataInizio' and '$dataFine'
-				GROUP BY stato_archivio_verbale_bollettario
+				$query = "SELECT b.stato_archivio_verbale_bollettario as stato_verbali, count(b.id_bollettario) as num_verbali
+				FROM $this->table_name AS b
+				WHERE CAST(b.data_verbale_bollettario AS DATE) between '$dataInizio' and '$dataFine'
+				GROUP BY b.stato_archivio_verbale_bollettario
 				ORDER BY num_verbali DESC";
 
 			} else {
 
 				// select all
-				$query = "SELECT stato_archivio_verbale_bollettario as stato_verbali, count(id_bollettario) as num_verbali
-				FROM $this->table_name
-				WHERE data_verbale_bollettario <= CURDATE()
-				GROUP BY stato_archivio_verbale_bollettario
+				$query = "SELECT b.stato_archivio_verbale_bollettario as stato_verbali, count(b.id_bollettario) as num_verbali
+				FROM $this->table_name AS b
+				WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE()
+				GROUP BY b.stato_archivio_verbale_bollettario
 				ORDER BY num_verbali DESC";
 
 			}
