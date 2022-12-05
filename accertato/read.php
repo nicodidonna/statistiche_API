@@ -59,10 +59,13 @@ if ($num > 0) {
 
         //se chiedo verbali riempio un l'array temporaneo $table_item con i valori del risultato della query
             $table_item = array(
-                "importo_ridotto_60gg" => $row['Imp_Ridotto_60gg_euro'],
+                "importo_istat2021" => $row['importo_istat2021'],
+                "importo_istat2019" => $row['importo_istat2019'],
+                "importo_istat2018" => $row['importo_istat2018'],
                 "spese_notifica" => $row['spese_notifica_verbale_bollettario'],
                 "spese_stampa" => $row['spese_stampa_verbale_bollettario'],
-                "tipo_bollettario" => $row['tipo_bollettario']
+                "tipo_bollettario" => $row['tipo_bollettario'],
+                "data_verbale" => $row['data_verbale_bollettario']
             );
 
         }
@@ -72,7 +75,11 @@ if ($num > 0) {
 
              //se chiedo verbali riempio un l'array temporaneo $table_item con i valori del risultato della query
              $table_item = array(
-                "importo_ridotto_60gg" => $row['Imp_Ridotto_60gg_euro']
+                "importo_istat2021" => $row['importo_istat2021'],
+                "importo_istat2019" => $row['importo_istat2019'],
+                "importo_istat2018" => $row['importo_istat2018'],
+                "tipo_bollettario" => $row['tipo_bollettario_pr'],
+                "data_preavviso" => $row['data_preavviso_bollettario']
             );
 
         }
