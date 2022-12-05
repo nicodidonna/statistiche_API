@@ -56,8 +56,8 @@ if ($num > 0) {
             if( $row['tipo_bollettario'] == 2 ){
                 $row['tipo_bollettario'] = 'Differito';
             };
-
-        //se chiedo verbali riempio un l'array temporaneo $table_item con i valori del risultato della query
+        
+            
             $table_item = array(
                 "importo_istat2021" => $row['importo_istat2021'],
                 "importo_istat2019" => $row['importo_istat2019'],
@@ -70,10 +70,10 @@ if ($num > 0) {
 
         }
 
-        //se chiedo verbali riempio un l'array temporaneo $table_item con i valori del risultato della query
+        //se chiedo preavvisi riempio un l'array temporaneo $table_item con i valori del risultato della query
         if($GLOBALS['tipoRead'] == 'preavvisi'){
+             
 
-             //se chiedo verbali riempio un l'array temporaneo $table_item con i valori del risultato della query
              $table_item = array(
                 "importo_istat2021" => $row['importo_istat2021'],
                 "importo_istat2019" => $row['importo_istat2019'],
