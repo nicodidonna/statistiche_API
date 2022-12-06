@@ -19,29 +19,58 @@ class VerbaliVia
 		}
 
 	// READ verbali_by_articolo
-	function read($dataInizio = null, $dataFine = null)
+	function read($tipoRead, $dataInizio = null, $dataFine = null)
 	{
 
-		if($dataInizio != null and $dataFine != null){
+		if($tipoRead == 'verbali'){
 
-			// select all
-			$query = "SELECT s.TIP_STR as tipo_strada, s.DESCRIZ as nome_strada, count(b.id_bollettario) as num_verbali
-			FROM $this->table_name_1 as b
-			INNER JOIN $this->table_name_2 as s on b.id_stradario_verbale_bollettario = s.cod_via
-			WHERE CAST(b.data_verbale_bollettario AS DATE) between '$dataInizio' and '$dataFine' AND b.stato_archivio_verbale_bollettario = 0
-			group by s.COD_VIA
-			order by num_verbali desc";
+			if($dataInizio != null and $dataFine != null){
 
-		} else {
-
-			$query = "SELECT s.TIP_STR as tipo_strada, s.DESCRIZ as nome_strada, count(b.id_bollettario) as num_verbali
-			FROM $this->table_name_1 as b
-			INNER JOIN $this->table_name_2 as s on b.id_stradario_verbale_bollettario = s.cod_via
-			WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0
-			group by s.COD_VIA
-			order by num_verbali desc";
+				// select all
+				$query = "SELECT s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, count(b.id_bollettario) AS num_verbali
+				FROM $this->table_name_1 AS b
+				INNER JOIN $this->table_name_2 AS s ON b.id_stradario_verbale_bollettario = s.cod_via
+				WHERE CAST(b.data_verbale_bollettario AS DATE) between '$dataInizio' AND '$dataFine' AND b.stato_archivio_verbale_bollettario = 0
+				GROUP BY s.COD_VIA
+				ORDER BY num_verbali DESC";
+	
+			} else {
+	
+				$query = "SELECT s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, count(b.id_bollettario) AS num_verbali
+				FROM $this->table_name_1 AS b
+				INNER JOIN $this->table_name_2 AS s ON b.id_stradario_verbale_bollettario = s.cod_via
+				WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0
+				GROUP BY s.COD_VIA
+				ORDER BY num_verbali DESC";
+	
+			}
 
 		}
+
+
+		if($tipoRead == 'preavvisi'){
+
+			if($dataInizio != null and $dataFine != null){
+
+				// select all
+				$query = "SELECT count(b.id_bollettario_pr) AS num_verbali, b.kmstrada_verbale_bollettario_pr AS nome_strada
+				FROM db6_bollettario_pr AS b
+				WHERE CAST(b.data_verbale_bollettario_pr AS DATE) between '$dataInizio' and '$dataFine' AND b.stato_archivio_verbale_bollettario_pr = 0
+				GROUP BY b.kmstrada_verbale_bollettario_pr
+				ORDER BY num_verbali DESC";
+	
+			} else {
+	
+				$query = "SELECT count(b.id_bollettario_pr) AS num_verbali, b.kmstrada_verbale_bollettario_pr AS nome_strada
+				FROM db6_bollettario_pr AS b
+				WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario_pr = 0
+				GROUP BY b.kmstrada_verbale_bollettario_pr
+				ORDER BY num_verbali DESC";
+	
+			}
+			
+		}
+		
 		
 		$stmt = $this->conn->prepare($query);
 		// execute query

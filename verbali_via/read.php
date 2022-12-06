@@ -11,35 +11,61 @@ include_once '../models/verbali_via.php';
 // Creiamo un nuovo oggetto VerbaliVia e passiamoli la connessione
 $verbali_via = new VerbaliVia();
 
-if (isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
-
-    //prendo i parametri dall'url
-    $param = $_GET['data_inizio'];
-    $param2 = $_GET['data_fine'];
-    $stmt = $verbali_via->read($param, $param2);
-
-} else {
-
-    $stmt = $verbali_via->read();
+//prendo dai parametri GET la richiesta di verbali o preavvisi e faccio la read in base a quello
+if( isset($_GET['tipoRead']) ){
+    
+    $GLOBALS['tipoRead'] = $_GET['tipoRead'];
+    
+    if ( isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
+        
+        //prendo i parametri dall'url
+        $param = $_GET['data_inizio'];
+        $param2 = $_GET['data_fine'];
+        
+        $stmt = $verbali_via->read($GLOBALS['tipoRead'],$param,$param2);
+    
+    } else {
+        
+        $stmt = $verbali_via->read($GLOBALS['tipoRead']);
+    
+    }
 
 }
 
 // query products
 $num = $stmt->rowCount();
 
-// se vengono trovati libri nel database
+// se ci sono risultati nel database
 if($num>0){
 
-    // array di libri
+    // array di risultati
     $verbali_arr = array();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        $table_item = array(
-            "tipo_strada" => $row['tipo_strada'],
-            "nome_strada" => $row['nome_strada'],
-            "num_verbali" => $row['num_verbali'],
-        );
+
+        //se chiedo verbali riempio un l'array temporaneo $table_item con i valori del risultato della query
+        if($GLOBALS['tipoRead'] == 'verbali'){
+
+            $table_item = array(
+                "tipo_strada" => $row['tipo_strada'],
+                "nome_strada" => $row['nome_strada'],
+                "num_verbali" => $row['num_verbali'],
+            );
+
+        }
+
+        //se chiedo preavvisi riempio un l'array temporaneo $table_item con i valori del risultato della query
+        if($GLOBALS['tipoRead'] == 'preavvisi'){
+
+            $table_item = array(
+                "nome_strada" => $row['nome_strada'],
+                "num_verbali" => $row['num_verbali'],
+            );
+
+        }
+        
         array_push($verbali_arr, $table_item);
+        
     }
 
     http_response_code(200); 
