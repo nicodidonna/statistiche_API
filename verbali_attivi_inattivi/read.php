@@ -11,17 +11,24 @@ include_once '../models/verbali_attivi_inattivi.php';
 // Creiamo un nuovo oggetto VerbaliAttiviInattivi e passiamoli la connessione
 $verbali_attivi_inattivi = new VerbaliAttiviInattivi();
 
-//prendo i parametri dall'url
-if (isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
-
-    //prendo i parametri dall'url
-    $param = $_GET['data_inizio'];
-    $param2 = $_GET['data_fine'];
-    $stmt = $verbali_attivi_inattivi->read($param, $param2);
-
-} else {
+//prendo dai parametri GET la richiesta di verbali o preavvisi e faccio la read in base a quello
+if( isset($_GET['tipoRead']) ){
+    
+    $GLOBALS['tipoRead'] = $_GET['tipoRead'];
+    
+    if ( isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
         
-    $stmt = $verbali_attivi_inattivi->read();
+        //prendo i parametri dall'url
+        $param = $_GET['data_inizio'];
+        $param2 = $_GET['data_fine'];
+        
+        $stmt = $verbali_attivi_inattivi->read($GLOBALS['tipoRead'],$param,$param2);
+    
+    } else {
+        
+        $stmt = $verbali_attivi_inattivi->read($GLOBALS['tipoRead']);
+    
+    }
 
 }
 
@@ -29,30 +36,59 @@ if (isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
 // query products
 $num = $stmt->rowCount();
 
-// se vengono trovati libri nel database
+// se ci sono righe di risultato nel database
 if($num>0){
 
-    // array di libri
+    // array di risultati
     $verbali_arr = array();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
-        if($row['stato_verbali']==0){
-            $row['stato_verbali'] = 'Attivi';
+        //se chiedo verbali riempio un l'array temporaneo $table_item con i valori del risultato della query
+        if($GLOBALS['tipoRead'] == 'verbali'){
+
+            if($row['stato_verbali']==0){
+                $row['stato_verbali'] = 'Attivi';
+            }
+    
+            if($row['stato_verbali']==1){
+                $row['stato_verbali'] = 'Archiviati';
+            }
+    
+            if($row['stato_verbali']==2){
+                $row['stato_verbali'] = 'Annullati';
+            }
+    
+            $table_item = array(
+                "stato_verbali" => $row['stato_verbali'],
+                "num_verbali" => $row['num_verbali'],
+            );
+
         }
 
-        if($row['stato_verbali']==1){
-            $row['stato_verbali'] = 'Archiviati';
+        //se chiedo preavvisi riempio un l'array temporaneo $table_item con i valori del risultato della query
+        if($GLOBALS['tipoRead'] == 'preavvisi'){
+
+            if($row['stato_verbali']==0){
+                $row['stato_verbali'] = 'Attivi';
+            }
+    
+            if($row['stato_verbali']==1){
+                $row['stato_verbali'] = 'Archiviati';
+            }
+    
+            if($row['stato_verbali']==2){
+                $row['stato_verbali'] = 'Annullati';
+            }
+    
+            $table_item = array(
+                "stato_verbali" => $row['stato_verbali'],
+                "num_verbali" => $row['num_verbali'],
+            );
+
         }
 
-        if($row['stato_verbali']==2){
-            $row['stato_verbali'] = 'Annullati';
-        }
-
-        $table_item = array(
-            "stato_verbali" => $row['stato_verbali'],
-            "num_verbali" => $row['num_verbali'],
-        );
+        
         array_push($verbali_arr, $table_item);
     }
 
