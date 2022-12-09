@@ -21,7 +21,7 @@ class VerbaliAgente
 
     }
 
-    // READ verbali_by_articolo
+    // READ verbali_by_agente
     function read($tipoRead, $dataInizio = null, $dataFine = null)
     {
 
