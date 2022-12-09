@@ -112,7 +112,7 @@ if ($num > 0) {
 } else {
 
     http_response_code(404);
-    echo json_encode(array("message" => "La ricerca di Verbali per Agente non ha prodotto nessun risultato."));
+    echo json_encode(array("message" => "La ricerca di Verbali per il flusso non ha prodotto nessun risultato."));
 
 }
 
