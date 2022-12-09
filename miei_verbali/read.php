@@ -8,8 +8,13 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/miei_verbali.php';
 
+if( isset($_GET['id']) ){
+    $db_id = $_GET['id'];
+}
+
+
 // Creiamo un nuovo oggetto MieiVerbali e passiamoli la connessione
-$miei_verbali = new MieiVerbali();
+$miei_verbali = new MieiVerbali($db_id);
 
 if (isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
     //se ci sono, prendo i parametri dall'url

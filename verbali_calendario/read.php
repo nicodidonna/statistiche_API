@@ -8,8 +8,12 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/verbali_calendario.php';
 
+if( isset($_GET['id']) ){
+    $db_id = $_GET['id'];
+}
+
 // Creiamo un nuovo oggetto VerbaliArticolo e passiamoli la connessione
-$verbali_calendario = new VerbaliCalendario();
+$verbali_calendario = new VerbaliCalendario($db_id);
 
 if ( isset($_GET['articolo']) ){
 

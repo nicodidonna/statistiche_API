@@ -8,8 +8,12 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/verbali_agente.php';
 
+if( isset($_GET['id']) ){
+    $db_id = $_GET['id'];
+}
+
 // Creiamo un nuovo oggetto VerbaliAgente e passiamoli la connessione
-$verbali_agente = new VerbaliAgente();
+$verbali_agente = new VerbaliAgente($db_id);
 
 //prendo dai parametri GET la richiesta di verbali o preavvisi e faccio la read in base a quello
 if( isset($_GET['tipoRead']) ){

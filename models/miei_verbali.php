@@ -20,9 +20,9 @@ class MieiVerbali
 	public $url_docallegato;
     
     // costruttore
-    public function __construct()
+    public function __construct($id)
     {
-        $this->conn = Database::getInstance();
+        $this->conn = Database::getInstance($id);
 
     }
 

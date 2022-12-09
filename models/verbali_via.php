@@ -13,9 +13,9 @@ class VerbaliVia
 	public $num_verbali;
 
 	// costruttore
-	public function __construct()
+	public function __construct($id)
 		{
-		$this->conn = Database::getInstance();
+		$this->conn = Database::getInstance($id);
 		}
 
 	// READ verbali_by_articolo

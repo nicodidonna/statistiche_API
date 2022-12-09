@@ -8,8 +8,13 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/verbali_attivi_inattivi.php';
 
+if( isset($_GET['id']) ){
+    $db_id = $_GET['id'];
+}
+
+
 // Creiamo un nuovo oggetto VerbaliAttiviInattivi e passiamoli la connessione
-$verbali_attivi_inattivi = new VerbaliAttiviInattivi();
+$verbali_attivi_inattivi = new VerbaliAttiviInattivi($db_id);
 
 //prendo dai parametri GET la richiesta di verbali o preavvisi e faccio la read in base a quello
 if( isset($_GET['tipoRead']) ){

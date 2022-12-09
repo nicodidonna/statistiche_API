@@ -8,8 +8,12 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/lista_articoli.php';
 
+if( isset($_GET['id']) ){
+    $db_id = $_GET['id'];
+}
+
 // Creiamo un nuovo oggetto ListaArticoli e passiamoli la connessione
-$lista_articoli = new ListaArticoli();
+$lista_articoli = new ListaArticoli($db_id);
 
 // query products
 $stmt = $lista_articoli->read();

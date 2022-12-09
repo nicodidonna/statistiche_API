@@ -9,9 +9,9 @@ class Accertato
 	private $table_name_2 = "db6_bollettario_pr";
 
 	// costruttore
-	public function __construct()
+	public function __construct($id)
 		{
-		$this->conn = Database::getInstance();
+		$this->conn = Database::getInstance($id);
 		}
 
 

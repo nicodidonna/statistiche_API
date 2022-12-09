@@ -8,8 +8,12 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/flusso.php';
 
+if( isset($_GET['id']) ){
+    $db_id = $_GET['id'];
+}
+
 // Creiamo un nuovo oggetto Flusso e passiamoli la connessione
-$flusso = new Flusso();
+$flusso = new Flusso($db_id);
 
 //prendo dai parametri GET la richiesta di verbali o preavvisi e faccio la read in base a quello
 if ( isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {

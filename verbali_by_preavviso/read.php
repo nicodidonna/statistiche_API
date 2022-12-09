@@ -8,8 +8,12 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/verbali_by_preavviso.php';
 
+if( isset($_GET['id']) ){
+    $db_id = $_GET['id'];
+}
+
 // Creiamo un nuovo oggetto VerbaliPreavviso e passiamoli la connessione
-$verbali_preavviso = new VerbaliPreavviso();
+$verbali_preavviso = new VerbaliPreavviso($db_id);
 
 if (isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
 

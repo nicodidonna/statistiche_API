@@ -9,9 +9,9 @@ class Flusso
     private $table_name_2 = "db1_agente";
     
     // costruttore
-    public function __construct()
+    public function __construct($id)
     {
-        $this->conn = Database::getInstance();
+        $this->conn = Database::getInstance($id);
     }
 
     // READ flusso

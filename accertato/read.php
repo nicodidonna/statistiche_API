@@ -8,8 +8,12 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/accertato.php';
 
+if( isset($_GET['id']) ){
+    $db_id = $_GET['id'];
+}
+
 // Creiamo un nuovo oggetto Incassato e passiamoli la connessione
-$accertato = new Accertato();
+$accertato = new Accertato($db_id);
 
 //prendo dai parametri GET la richiesta di verbali o preavvisi e faccio la read in base a quello
 if( isset($_GET['tipoRead']) ){

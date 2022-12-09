@@ -8,8 +8,12 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/db.php';
 include_once '../models/totale_verbali.php';
 
+if( isset($_GET['id']) ){
+    $db_id = $_GET['id'];
+}
+
 // Creiamo un nuovo oggetto TotaleVerbali e passiamoli la connessione
-$totale_verbali = new TotaleVerbali();
+$totale_verbali = new TotaleVerbali($db_id);
 
 //prendo i parametri dall'url
 if ( isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {

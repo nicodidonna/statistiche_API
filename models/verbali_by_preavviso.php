@@ -16,9 +16,9 @@ class VerbaliPreavviso
 	public $anno_verbale;
 
 	// costruttore
-	public function __construct()
+	public function __construct($id)
 		{
-		$this->conn = Database::getInstance();
+		$this->conn = Database::getInstance($id);
 		}
 
 	// READ verbali_by_preavviso
