@@ -16,14 +16,14 @@ class Database
     private function __construct($id)
     {
         switch ($id) {
+            case 0:
+                $this->db_name = 'sanzioni1.0';
+                break;
             case 1:
                 $this->db_name = 'sanzioni_rutigliano';
                 break;
             case 2:
                 $this->db_name = 'sanzioni_noicattaro';
-                break;
-            case 3:
-                $this->db_name = 'sanzioni1.0';
                 break;
         }
         $this->getConnection();
