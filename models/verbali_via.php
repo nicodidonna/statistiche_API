@@ -70,6 +70,49 @@ class VerbaliVia
 			}
 			
 		}
+
+		if($tipoRead == 'verbali_preavvisi'){
+
+			if($dataInizio != null and $dataFine != null){
+
+				// select all
+				$query = "SELECT tipo_strada, nome_strada, SUM(num_verbali) as num_verbali
+				FROM 
+				(SELECT s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, count(b.id_bollettario) AS num_verbali
+				FROM db2_bollettario AS b
+				INNER JOIN db1_stradario AS s ON b.id_stradario_verbale_bollettario = s.cod_via
+				WHERE CAST(b.data_verbale_bollettario AS DATE) between '$dataInizio' AND '$dataFine' AND b.stato_archivio_verbale_bollettario = 0
+				GROUP BY s.COD_VIA
+				UNION ALL
+				SELECT s.TIP_STR AS tipo_strada, b.kmstrada_verbale_bollettario_pr AS nome_strada, count(b.id_bollettario_pr) AS num_verbali
+				FROM db6_bollettario_pr AS b
+				LEFT JOIN db1_stradario AS s ON b.id_stradario_verbale_bollettario_pr = s.cod_via
+				WHERE CAST(b.data_verbale_bollettario_pr AS DATE) between '$dataInizio' AND '$dataFine'  AND b.stato_archivio_verbale_bollettario_pr = 0
+				GROUP BY b.kmstrada_verbale_bollettario_pr) unione
+				GROUP BY nome_strada
+				ORDER BY num_verbali DESC";
+	
+			} else {
+	
+				$query = "SELECT tipo_strada, nome_strada, SUM(num_verbali) as num_verbali
+				FROM 
+				(SELECT s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, count(b.id_bollettario) AS num_verbali
+				FROM db2_bollettario AS b
+				INNER JOIN db1_stradario AS s ON b.id_stradario_verbale_bollettario = s.cod_via
+				WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0
+				GROUP BY s.COD_VIA
+				UNION ALL
+				SELECT s.TIP_STR AS tipo_strada, b.kmstrada_verbale_bollettario_pr AS nome_strada, count(b.id_bollettario_pr) AS num_verbali
+				FROM db6_bollettario_pr AS b
+				LEFT JOIN db1_stradario AS s ON b.id_stradario_verbale_bollettario_pr = s.cod_via
+				WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario_pr = 0
+				GROUP BY b.kmstrada_verbale_bollettario_pr) unione
+				GROUP BY nome_strada
+				ORDER BY num_verbali DESC";
+	
+			}
+			
+		}
 		
 		
 		$stmt = $this->conn->prepare($query);

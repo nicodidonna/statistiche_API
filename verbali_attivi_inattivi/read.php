@@ -93,6 +93,28 @@ if($num>0){
 
         }
 
+        //se chiedo preavvisi e verbali riempio un l'array temporaneo $table_item con i valori del risultato della query
+        if($GLOBALS['tipoRead'] == 'verbali_preavvisi'){
+
+            if($row['stato_verbali']==0){
+                $row['stato_verbali'] = 'Attivi';
+            }
+    
+            if($row['stato_verbali']==1){
+                $row['stato_verbali'] = 'Archiviati';
+            }
+    
+            if($row['stato_verbali']==2){
+                $row['stato_verbali'] = 'Annullati';
+            }
+    
+            $table_item = array(
+                "stato_verbali" => $row['stato_verbali'],
+                "num_verbali" => $row['num_verbali'],
+            );
+
+        }
+
         
         array_push($verbali_arr, $table_item);
     }

@@ -67,6 +67,16 @@ if($num>0){
             );
         
         }
+
+        //se chiedo verbali e preavvisi riempio un l'array temporaneo $table_item con i valori del risultato della query
+        if($GLOBALS['tipoRead'] == 'verbali_preavvisi'){
+            
+            $table_item = array(
+                "articolo" => $row['articolo'],
+                "num_verbali" => $row['num_verbali'],
+            );
+        
+        }
         
         array_push($verbali_arr, $table_item);
         

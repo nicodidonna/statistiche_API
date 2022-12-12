@@ -76,6 +76,54 @@ class VerbaliArticolo
 				}
 			
 			}
+
+			if($tipoRead == 'verbali_preavvisi'){
+				
+				if($dataInizio != null and $dataFine != null){
+				
+					//query
+					$query = "SELECT articolo, SUM(num_verbali) AS num_verbali
+					FROM
+					(SELECT a.descrizione as articolo, count(i.id_infrazione) as num_verbali
+					FROM db2_infrazione as i
+					INNER JOIN articoli_new as a on i.Cod_Articolo_infrazione = a.id_articolo
+					INNER JOIN db2_bollettario as b on i.id_bollettario_infrazione = b.id_bollettario
+					WHERE CAST(b.data_verbale_bollettario AS DATE) between '$dataInizio' AND '$dataFine' AND b.stato_archivio_verbale_bollettario = 0
+					GROUP BY a.descrizione
+					UNION ALL
+					SELECT a.descrizione as articolo, count(i.id_infrazione_pr) as num_verbali
+					FROM db6_infrazione_pr as i
+					INNER JOIN articoli_new as a on i.Cod_Articolo_infrazione_pr = a.id_articolo
+					INNER JOIN db6_bollettario_pr as b on i.id_bollettario_infrazione_pr = b.id_bollettario_pr
+					WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario_pr = 0
+					GROUP BY a.descrizione) unione
+					GROUP BY articolo
+					ORDER BY num_verbali DESC";
+					
+				} else {
+					
+					//query
+					$query = "SELECT articolo, SUM(num_verbali) AS num_verbali
+					FROM
+					(SELECT a.descrizione as articolo, count(i.id_infrazione) as num_verbali
+					FROM db2_infrazione as i
+					INNER JOIN articoli_new as a on i.Cod_Articolo_infrazione = a.id_articolo
+					INNER JOIN db2_bollettario as b on i.id_bollettario_infrazione = b.id_bollettario
+					WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0
+					GROUP BY a.descrizione
+					UNION ALL
+					SELECT a.descrizione as articolo, count(i.id_infrazione_pr) as num_verbali
+					FROM db6_infrazione_pr as i
+					INNER JOIN articoli_new as a on i.Cod_Articolo_infrazione_pr = a.id_articolo
+					INNER JOIN db6_bollettario_pr as b on i.id_bollettario_infrazione_pr = b.id_bollettario_pr
+					WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario_pr = 0
+					GROUP BY a.descrizione) unione
+					GROUP BY articolo
+					ORDER BY num_verbali DESC";
+					
+				}
+			
+			}
 			
 			$stmt = $this->conn->prepare($query);
 			// execute query

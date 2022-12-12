@@ -67,6 +67,46 @@ class VerbaliAttiviInattivi
 				}
 
 			}
+
+			if($tipoRead == 'verbali_preavvisi'){
+
+				if($dataInizio != null and $dataFine != null) {
+
+					// select all
+					$query = "SELECT stato_verbali, SUM(num_verbali) AS num_verbali
+					FROM
+					(SELECT b.stato_archivio_verbale_bollettario as stato_verbali, count(b.id_bollettario) as num_verbali
+					FROM db2_bollettario AS b
+					WHERE CAST(b.data_verbale_bollettario AS DATE) between '$dataInizio' and '$dataFine'
+					GROUP BY b.stato_archivio_verbale_bollettario
+					UNION ALL
+					SELECT b.stato_archivio_verbale_bollettario_pr as stato_verbali, count(b.id_bollettario_pr) as num_verbali
+					FROM db6_bollettario_pr AS b
+					WHERE CAST(b.data_verbale_bollettario_pr AS DATE) between '$dataInizio' and '$dataFine'
+					GROUP BY b.stato_archivio_verbale_bollettario_pr) unione
+					GROUP BY stato_verbali
+					ORDER BY num_verbali DESC";
+	
+				} else {
+	
+					// select all
+					$query = "SELECT stato_verbali, SUM(num_verbali) AS num_verbali
+					FROM
+					(SELECT b.stato_archivio_verbale_bollettario as stato_verbali, count(b.id_bollettario) as num_verbali
+					FROM db2_bollettario AS b
+					WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE()
+					GROUP BY b.stato_archivio_verbale_bollettario
+					UNION ALL
+					SELECT b.stato_archivio_verbale_bollettario_pr as stato_verbali, count(b.id_bollettario_pr) as num_verbali
+					FROM db6_bollettario_pr AS b
+					WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE()
+					GROUP BY b.stato_archivio_verbale_bollettario_pr) unione
+					GROUP BY stato_verbali
+					ORDER BY num_verbali DESC";
+	
+				}
+
+			}
 			
 			
 			$stmt = $this->conn->prepare($query);
