@@ -17,7 +17,7 @@ class Database
     {
         switch ($id) {
             case 0:
-                $this->db_name = 'sanzioni1.0';
+                $this->db_name = 'sanzioni1_0';
                 break;
             case 1:
                 $this->db_name = 'sanzioni_rutigliano';
@@ -25,6 +25,15 @@ class Database
             case 2:
                 $this->db_name = 'sanzioni_noicattaro';
                 break;
+            case 3:
+                $this->db_name = 'sanzioni_acquaviva';
+                break;
+            case 4:
+                $this->db_name = 'sanzioni_sammichele';
+                break;
+            case 5:
+                $this->db_name = 'sanzioni_venezia';
+                break;        
         }
         $this->getConnection();
     }
