@@ -45,15 +45,63 @@ if ($num > 0) {
         $row['numero_verbale'] = $row['numero_verbale']."/".$row['anno_verbale'];
         
         if($row['stato_verbale']==0){
-            $row['stato_verbale'] = 'Attivo';
+            $row['stato_verbale'] = 'Non Compilato';
         }
 
         if($row['stato_verbale']==1){
-            $row['stato_verbale'] = 'Archiviato';
+            $row['stato_verbale'] = 'Scaricato';
         }
 
         if($row['stato_verbale']==2){
-            $row['stato_verbale'] = 'Annullato';
+            $row['stato_verbale'] = 'Notificato';
+        }
+
+        if($row['stato_verbale']==3){
+            $row['stato_verbale'] = 'Pagato';
+        }
+
+        if($row['stato_verbale']==4){
+            $row['stato_verbale'] = 'In ricorso - Nessun pagamento';
+        }
+
+        if($row['stato_verbale']==5){
+            $row['stato_verbale'] = 'In ricorso - Pagamento effettuato';
+        }
+
+        if($row['stato_verbale']==6){
+            $row['stato_verbale'] = 'Coattivo';
+        }
+
+        if($row['stato_verbale']==7){
+            $row['stato_verbale'] = 'Pagato parzialmente';
+        }
+
+        if($row['stato_verbale']==8){
+            $row['stato_verbale'] = 'Rateizzato';
+        }
+
+        if($row['stato_verbale']==9){
+            $row['stato_verbale'] = 'Sospeso';
+        }
+
+        if($row['tipo_verbale']==1){
+            $row['tipo_verbale'] = 'Immediato';
+        }
+
+        if($row['tipo_verbale']==2){
+            $row['tipo_verbale'] = 'Differito';
+        }
+
+        if($row['stato_archivio_verbale']==0){
+            $row['stato_archivio_verbale'] = 'Attivo';
+        }
+
+        if($row['stato_archivio_verbale']==1){
+            $row['stato_archivio_verbale'] = 'Archiviato';
+        }
+
+        if($row['stato_archivio_verbale']==2){
+            $row['stato_archivio_verbale'] = 'Annullato';
         }
 
         $row['strada_violazione'] = $row['tipo_strada']." ".$row['nome_strada'];
@@ -63,6 +111,8 @@ if ($num > 0) {
             "id_verbale" => $row['id_verbale'],
             "numero_verbale" => $row['numero_verbale'],
             "stato_verbale" => $row['stato_verbale'],
+            "tipo_verbale" => $row['tipo_verbale'],
+            "stato_archivio_verbale" => $row['stato_archivio_verbale'],
             "comune_violazione" => $row['comune_violazione'],
             "data_verbale" => $row['data_verbale'],
             "dichiarazione_verbale" => $row['dichiarazione_verbale'],
