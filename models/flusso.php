@@ -23,7 +23,7 @@ class Flusso
                 
                 $query = "SELECT DISTINCT b.id_bollettario AS id_verbale, b.numero_bollettario AS numero_verbale, b.anno_bollettario AS anno_verbale, 
                 b.stato_bollettario AS stato_verbale, b.tipo_bollettario AS tipo_verbale, b.stato_archivio_verbale_bollettario as stato_archivio_verbale ,c.Comune AS comune_violazione, b.data_verbale_bollettario AS data_verbale, b.dichiarazione_verbale_bollettario AS dichiarazione_verbale, 
-                s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, b.kmstrada_verbale_bollettario AS kmstrada_verbale, c2.Comune AS giudice_di_pace, istat.Imp_30_euro AS istat2021_30, istat2.Imp_30_euro AS istat2019_30, istat3.Imp_30_euro AS istat2018_30, 
+                s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, b.kmstrada_verbale_bollettario AS kmstrada_verbale, a.Descrizione as articolo_verbale, c2.Comune AS giudice_di_pace, istat.Imp_30_euro AS istat2021_30, istat2.Imp_30_euro AS istat2019_30, istat3.Imp_30_euro AS istat2018_30, 
                 istat.Imp_Ridotto_60gg_euro AS istat2021_60gg, istat2.Imp_Ridotto_60gg_euro AS istat2019_60gg, istat3.Imp_Ridotto_60gg_euro AS istat2018_60gg, b.data_archivio_verbale_bollettario AS data_archivio_verbale, 
                 b.note_archivio_verbale_bollettario AS note_verbale,  v.tipo_veicolo, v.targa_veicolo, v.modello_veicolo,
                 Mino.nome_proprietario, Mino.cognome_proprietario, Mino.sesso_proprietario, Mino.cf_proprietario, c3.Comune AS comune_nascita_proprietario, Mino.data_nascita_proprietario,
@@ -78,7 +78,7 @@ class Flusso
                 
                 $query = "SELECT DISTINCT b.id_bollettario AS id_verbale, b.numero_bollettario AS numero_verbale, b.anno_bollettario AS anno_verbale, 
                 b.stato_bollettario AS stato_verbale, b.tipo_bollettario AS tipo_verbale, b.stato_archivio_verbale_bollettario as stato_archivio_verbale , c.Comune AS comune_violazione, b.data_verbale_bollettario AS data_verbale, b.dichiarazione_verbale_bollettario AS dichiarazione_verbale, 
-                s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, b.kmstrada_verbale_bollettario AS kmstrada_verbale, c2.Comune AS giudice_di_pace, istat.Imp_30_euro AS istat2021_30, istat2.Imp_30_euro AS istat2019_30, istat3.Imp_30_euro AS istat2018_30, 
+                s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, b.kmstrada_verbale_bollettario AS kmstrada_verbale, a.Descrizione as articolo_verbale, c2.Comune AS giudice_di_pace, istat.Imp_30_euro AS istat2021_30, istat2.Imp_30_euro AS istat2019_30, istat3.Imp_30_euro AS istat2018_30, 
                 istat.Imp_Ridotto_60gg_euro AS istat2021_60gg, istat2.Imp_Ridotto_60gg_euro AS istat2019_60gg, istat3.Imp_Ridotto_60gg_euro AS istat2018_60gg, b.data_archivio_verbale_bollettario AS data_archivio_verbale, 
                 b.note_archivio_verbale_bollettario AS note_verbale,  v.tipo_veicolo, v.targa_veicolo, v.modello_veicolo,
                 Mino.nome_proprietario, Mino.cognome_proprietario, Mino.sesso_proprietario, Mino.cf_proprietario, c3.Comune AS comune_nascita_proprietario, Mino.data_nascita_proprietario,

@@ -118,6 +118,7 @@ if ($num > 0) {
             "dichiarazione_verbale" => $row['dichiarazione_verbale'],
             "strada_violazione" => $row['strada_violazione'],
             "kmstrada_verbale" => $row['kmstrada_verbale'],
+            "articolo_verbale" => $row['articolo_verbale'],
             "giudice_di_pace" => $row['giudice_di_pace'],
             "istat2021_30" => $row['istat2021_30'],
             "istat2019_30" => $row['istat2019_30'],
