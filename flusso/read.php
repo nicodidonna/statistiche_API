@@ -84,6 +84,10 @@ if ($num > 0) {
             $row['stato_verbale'] = 'Sospeso';
         }
 
+        if($row['stato_verbale']==11){
+            $row['stato_verbale'] = 'Reso';
+        }
+
         if($row['tipo_verbale']==1){
             $row['tipo_verbale'] = 'Immediato';
         }
