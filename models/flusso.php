@@ -22,7 +22,8 @@ class Flusso
             if ($dataInizio != null and $dataFine != null) {
                 
                 $query = "SELECT DISTINCT b.id_bollettario AS id_verbale, b.numero_bollettario AS numero_verbale, b.anno_bollettario AS anno_verbale, 
-                b.stato_bollettario AS stato_verbale, b.tipo_bollettario AS tipo_verbale, b.stato_archivio_verbale_bollettario as stato_archivio_verbale , c.Comune AS comune_violazione, b.data_verbale_bollettario AS data_verbale, b.dichiarazione_verbale_bollettario AS dichiarazione_verbale, 
+                b.stato_bollettario AS stato_verbale, b.tipo_bollettario AS tipo_verbale, b.stato_archivio_verbale_bollettario as stato_archivio_verbale , c.Comune AS comune_violazione, b.data_verbale_bollettario AS data_verbale,
+                ag.nome_agente, ag.cognome_agente, ag.matricola_agente, b.dichiarazione_verbale_bollettario AS dichiarazione_verbale, 
                 s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, b.kmstrada_verbale_bollettario AS kmstrada_verbale, a.Descrizione as articolo_verbale, i.violazione_infrazione AS ipotesi_violazione ,c2.Comune AS giudice_di_pace, istat.Imp_30_euro AS istat2021_30, istat2.Imp_30_euro AS istat2019_30, istat3.Imp_30_euro AS istat2018_30, 
                 istat.Imp_Ridotto_60gg_euro AS istat2021_60gg, istat2.Imp_Ridotto_60gg_euro AS istat2019_60gg, istat3.Imp_Ridotto_60gg_euro AS istat2018_60gg, b.data_archivio_verbale_bollettario AS data_archivio_verbale, 
                 b.note_archivio_verbale_bollettario AS note_verbale,  v.tipo_veicolo, v.targa_veicolo, v.modello_veicolo,
@@ -71,13 +72,15 @@ class Flusso
                 LEFT JOIN db0_comuni AS c3 ON c3.id_comune = Mino.id_comune_nascita_proprietario
                 LEFT JOIN db0_comuni AS c4 ON c4.id_comune = Mino.id_comune_nascita_trasgressore 
                 LEFT JOIN db2_verbaleazienda AS va ON va.id_bollettario_verbaleazienda = b.id_bollettario
-                LEFT JOIN db0_comuni AS c5 ON c5.id_comune = aziende.id_comune_azienda   
+                LEFT JOIN db0_comuni AS c5 ON c5.id_comune = aziende.id_comune_azienda 
+                LEFT JOIN db1_agente AS ag ON b.id_agente_assegn_bollettario = ag.id_agente   
                 WHERE CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataInizio' AND '$dataFine'";
                 
             } else {
                 
                 $query = "SELECT DISTINCT b.id_bollettario AS id_verbale, b.numero_bollettario AS numero_verbale, b.anno_bollettario AS anno_verbale, 
-                b.stato_bollettario AS stato_verbale, b.tipo_bollettario AS tipo_verbale, b.stato_archivio_verbale_bollettario as stato_archivio_verbale , c.Comune AS comune_violazione, b.data_verbale_bollettario AS data_verbale, b.dichiarazione_verbale_bollettario AS dichiarazione_verbale, 
+                b.stato_bollettario AS stato_verbale, b.tipo_bollettario AS tipo_verbale, b.stato_archivio_verbale_bollettario as stato_archivio_verbale , c.Comune AS comune_violazione, b.data_verbale_bollettario AS data_verbale,
+                ag.nome_agente, ag.cognome_agente, ag.matricola_agente, b.dichiarazione_verbale_bollettario AS dichiarazione_verbale, 
                 s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, b.kmstrada_verbale_bollettario AS kmstrada_verbale, a.Descrizione as articolo_verbale, i.violazione_infrazione AS ipotesi_violazione ,c2.Comune AS giudice_di_pace, istat.Imp_30_euro AS istat2021_30, istat2.Imp_30_euro AS istat2019_30, istat3.Imp_30_euro AS istat2018_30, 
                 istat.Imp_Ridotto_60gg_euro AS istat2021_60gg, istat2.Imp_Ridotto_60gg_euro AS istat2019_60gg, istat3.Imp_Ridotto_60gg_euro AS istat2018_60gg, b.data_archivio_verbale_bollettario AS data_archivio_verbale, 
                 b.note_archivio_verbale_bollettario AS note_verbale,  v.tipo_veicolo, v.targa_veicolo, v.modello_veicolo,
@@ -126,7 +129,8 @@ class Flusso
                 LEFT JOIN db0_comuni AS c3 ON c3.id_comune = Mino.id_comune_nascita_proprietario
                 LEFT JOIN db0_comuni AS c4 ON c4.id_comune = Mino.id_comune_nascita_trasgressore 
                 LEFT JOIN db2_verbaleazienda AS va ON va.id_bollettario_verbaleazienda = b.id_bollettario
-                LEFT JOIN db0_comuni AS c5 ON c5.id_comune = aziende.id_comune_azienda  
+                LEFT JOIN db0_comuni AS c5 ON c5.id_comune = aziende.id_comune_azienda 
+                LEFT JOIN db1_agente AS ag ON b.id_agente_assegn_bollettario = ag.id_agente
                 WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE()";
                 
             }
