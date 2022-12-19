@@ -22,14 +22,14 @@ class Flusso
             if ($dataInizio != null and $dataFine != null) {
                 
                 $query = "SELECT DISTINCT b.id_bollettario AS id_verbale, b.numero_bollettario AS numero_verbale, b.anno_bollettario AS anno_verbale, 
-                b.stato_bollettario AS stato_verbale, b.tipo_bollettario AS tipo_verbale, b.stato_archivio_verbale_bollettario as stato_archivio_verbale ,c.Comune AS comune_violazione, b.data_verbale_bollettario AS data_verbale, b.dichiarazione_verbale_bollettario AS dichiarazione_verbale, 
-                s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, b.kmstrada_verbale_bollettario AS kmstrada_verbale, a.Descrizione as articolo_verbale, c2.Comune AS giudice_di_pace, istat.Imp_30_euro AS istat2021_30, istat2.Imp_30_euro AS istat2019_30, istat3.Imp_30_euro AS istat2018_30, 
+                b.stato_bollettario AS stato_verbale, b.tipo_bollettario AS tipo_verbale, b.stato_archivio_verbale_bollettario as stato_archivio_verbale , c.Comune AS comune_violazione, b.data_verbale_bollettario AS data_verbale, b.dichiarazione_verbale_bollettario AS dichiarazione_verbale, 
+                s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, b.kmstrada_verbale_bollettario AS kmstrada_verbale, a.Descrizione as articolo_verbale, i.violazione_infrazione AS ipotesi_violazione ,c2.Comune AS giudice_di_pace, istat.Imp_30_euro AS istat2021_30, istat2.Imp_30_euro AS istat2019_30, istat3.Imp_30_euro AS istat2018_30, 
                 istat.Imp_Ridotto_60gg_euro AS istat2021_60gg, istat2.Imp_Ridotto_60gg_euro AS istat2019_60gg, istat3.Imp_Ridotto_60gg_euro AS istat2018_60gg, b.data_archivio_verbale_bollettario AS data_archivio_verbale, 
                 b.note_archivio_verbale_bollettario AS note_verbale,  v.tipo_veicolo, v.targa_veicolo, v.modello_veicolo,
                 Mino.nome_proprietario, Mino.cognome_proprietario, Mino.sesso_proprietario, Mino.cf_proprietario, c3.Comune AS comune_nascita_proprietario, Mino.data_nascita_proprietario,
                  Mino.indirizzo_proprietario, Mino.nome_trasgressore, Mino.cognome_trasgressore, Mino.sesso_trasgressore, Mino.cf_trasgressore, c4.Comune AS comune_nascita_trasgressore, 
                  Mino.data_nascita_trasgressore, Mino.indirizzo_trasgressore, Mino.tipodoc_trasgressore, Mino.num_doc_trasgressore, Mino.data_rilasciodoc_trasgressore , Mino.validitadoc_trasgressore, 
-                 Mino.ente_rilasciodoc_trasgressore, aziende.ragionesociale_azienda, aziende.pi_azienda, c5.Comune AS comune_azienda, aziende.indirizzo_azienda, aziende.pec_azienda 
+                 Mino.ente_rilasciodoc_trasgressore, aziende.ragionesociale_azienda, aziende.pi_azienda, c5.Comune AS comune_azienda, aziende.indirizzo_azienda, aziende.pec_azienda
                 FROM 
                 db2_bollettario AS b 
                 LEFT JOIN
@@ -71,20 +71,20 @@ class Flusso
                 LEFT JOIN db0_comuni AS c3 ON c3.id_comune = Mino.id_comune_nascita_proprietario
                 LEFT JOIN db0_comuni AS c4 ON c4.id_comune = Mino.id_comune_nascita_trasgressore 
                 LEFT JOIN db2_verbaleazienda AS va ON va.id_bollettario_verbaleazienda = b.id_bollettario
-                LEFT JOIN db0_comuni AS c5 ON c5.id_comune = aziende.id_comune_azienda  
-                WHERE CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataInizio' AND '$dataFine' AND b.stato_archivio_verbale_bollettario = 0";
+                LEFT JOIN db0_comuni AS c5 ON c5.id_comune = aziende.id_comune_azienda   
+                WHERE CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataInizio' AND '$dataFine'";
                 
             } else {
                 
                 $query = "SELECT DISTINCT b.id_bollettario AS id_verbale, b.numero_bollettario AS numero_verbale, b.anno_bollettario AS anno_verbale, 
                 b.stato_bollettario AS stato_verbale, b.tipo_bollettario AS tipo_verbale, b.stato_archivio_verbale_bollettario as stato_archivio_verbale , c.Comune AS comune_violazione, b.data_verbale_bollettario AS data_verbale, b.dichiarazione_verbale_bollettario AS dichiarazione_verbale, 
-                s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, b.kmstrada_verbale_bollettario AS kmstrada_verbale, a.Descrizione as articolo_verbale, c2.Comune AS giudice_di_pace, istat.Imp_30_euro AS istat2021_30, istat2.Imp_30_euro AS istat2019_30, istat3.Imp_30_euro AS istat2018_30, 
+                s.TIP_STR AS tipo_strada, s.DESCRIZ AS nome_strada, b.kmstrada_verbale_bollettario AS kmstrada_verbale, a.Descrizione as articolo_verbale, i.violazione_infrazione AS ipotesi_violazione ,c2.Comune AS giudice_di_pace, istat.Imp_30_euro AS istat2021_30, istat2.Imp_30_euro AS istat2019_30, istat3.Imp_30_euro AS istat2018_30, 
                 istat.Imp_Ridotto_60gg_euro AS istat2021_60gg, istat2.Imp_Ridotto_60gg_euro AS istat2019_60gg, istat3.Imp_Ridotto_60gg_euro AS istat2018_60gg, b.data_archivio_verbale_bollettario AS data_archivio_verbale, 
                 b.note_archivio_verbale_bollettario AS note_verbale,  v.tipo_veicolo, v.targa_veicolo, v.modello_veicolo,
                 Mino.nome_proprietario, Mino.cognome_proprietario, Mino.sesso_proprietario, Mino.cf_proprietario, c3.Comune AS comune_nascita_proprietario, Mino.data_nascita_proprietario,
                  Mino.indirizzo_proprietario, Mino.nome_trasgressore, Mino.cognome_trasgressore, Mino.sesso_trasgressore, Mino.cf_trasgressore, c4.Comune AS comune_nascita_trasgressore, 
                  Mino.data_nascita_trasgressore, Mino.indirizzo_trasgressore, Mino.tipodoc_trasgressore, Mino.num_doc_trasgressore, Mino.data_rilasciodoc_trasgressore , Mino.validitadoc_trasgressore, 
-                 Mino.ente_rilasciodoc_trasgressore, aziende.ragionesociale_azienda, aziende.pi_azienda, c5.Comune AS comune_azienda, aziende.indirizzo_azienda, aziende.pec_azienda 
+                 Mino.ente_rilasciodoc_trasgressore, aziende.ragionesociale_azienda, aziende.pi_azienda, c5.Comune AS comune_azienda, aziende.indirizzo_azienda, aziende.pec_azienda
                 FROM 
                 db2_bollettario AS b 
                 LEFT JOIN
@@ -127,7 +127,7 @@ class Flusso
                 LEFT JOIN db0_comuni AS c4 ON c4.id_comune = Mino.id_comune_nascita_trasgressore 
                 LEFT JOIN db2_verbaleazienda AS va ON va.id_bollettario_verbaleazienda = b.id_bollettario
                 LEFT JOIN db0_comuni AS c5 ON c5.id_comune = aziende.id_comune_azienda  
-                WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0";
+                WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE()";
                 
             }
         
