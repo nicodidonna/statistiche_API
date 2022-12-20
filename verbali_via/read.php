@@ -72,6 +72,7 @@ if($num>0){
         if($GLOBALS['tipoRead'] == 'verbali_preavvisi'){
 
             $table_item = array(
+                "tipo_strada" => $row['tipo_strada'],
                 "nome_strada" => $row['nome_strada'],
                 "num_verbali" => $row['num_verbali'],
             );
