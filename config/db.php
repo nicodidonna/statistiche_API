@@ -33,7 +33,10 @@ class Database
                 break;
             case 5:
                 $this->db_name = 'sanzioni_venezia';
-                break;        
+                break;
+            case 6:
+                $this->db_name = 'sanzioni_conversano';
+                break;              
         }
         $this->getConnection();
     }
