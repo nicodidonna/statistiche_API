@@ -19,16 +19,21 @@ if( isset($_GET['tipoRead']) ){
     
     $GLOBALS['tipoRead'] = $_GET['tipoRead'];
     
-    if ( isset($_GET['data_verbale_inizio']) and isset($_GET['data_verbale_fine']) and isset($_GET['data_inserimento_inizio']) and isset($_GET['data_inserimento_fine']) ) {
-        
+    if ( isset($_GET['data_verbale_inizio']) and isset($_GET['data_verbale_fine']) ) {
+
         //prendo i parametri dall'url
         $data_verbale_inizio = $_GET['data_verbale_inizio'];
         $data_verbale_fine = $_GET['data_verbale_fine'];
+        
+        $stmt = $verbali_docallegato->read($GLOBALS['tipoRead'], $data_verbale_inizio, $data_verbale_fine);
+    
+    } else if (isset($_GET['data_inserimento_inizio']) and isset($_GET['data_inserimento_fine'])){
+        
         $data_inserimento_inizio = $_GET['data_inserimento_inizio'];
         $data_inserimento_fine = $_GET['data_inserimento_fine'];
-        
-        $stmt = $verbali_docallegato->read($GLOBALS['tipoRead'], $data_verbale_inizio, $data_verbale_fine, $data_inserimento_inizio, $data_inserimento_fine);
-    
+
+        $stmt = $verbali_docallegato->read($GLOBALS['tipoRead'], null, null, $data_inserimento_inizio, $data_inserimento_fine);
+
     } else {
         
         $stmt = $verbali_docallegato->read($GLOBALS['tipoRead']);
