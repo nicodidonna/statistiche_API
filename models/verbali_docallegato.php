@@ -24,7 +24,8 @@ class VerbaliDocAllegato
                     FROM db2_docallegato as da
                     INNER JOIN db2_bollettario AS b ON da.id_bollettario_docallegato = b.id_bollettario
                     WHERE CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataVerbaleInizio' AND '$dataVerbaleFine' AND CAST(da.data_inserimento_docallegato AS DATE) <=CURDATE()
-                    GROUP BY da.tipo_docallegato";
+                    GROUP BY da.tipo_docallegato
+                    ORDER BY num_verbali DESC";
 					
 				} else if($dataInserimentoInizio != null and $dataInserimentoFine != null){
 
@@ -33,7 +34,8 @@ class VerbaliDocAllegato
                     FROM db2_docallegato as da
                     INNER JOIN db2_bollettario AS b ON da.id_bollettario_docallegato = b.id_bollettario
                     WHERE CAST(da.data_inserimento_docallegato AS DATE) BETWEEN '$dataInserimentoInizio' AND '$dataInserimentoFine'
-                    GROUP BY da.tipo_docallegato";
+                    GROUP BY da.tipo_docallegato
+                    ORDER BY num_verbali DESC";
 
                 } else {
 
@@ -42,7 +44,8 @@ class VerbaliDocAllegato
                     FROM db2_docallegato as da
                     INNER JOIN db2_bollettario AS b ON da.id_bollettario_docallegato = b.id_bollettario
                     WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND CAST(da.data_inserimento_docallegato AS DATE) <=CURDATE()
-                    GROUP BY da.tipo_docallegato";
+                    GROUP BY da.tipo_docallegato
+                    ORDER BY num_verbali DESC";
 					
 				}
 			
@@ -58,7 +61,8 @@ class VerbaliDocAllegato
                     FROM db6_docallegato_pr as da
                     INNER JOIN db6_bollettario_pr AS b ON da.id_bollettario_pr_docallegato_pr = b.id_bollettario_pr
                     WHERE CAST(b.data_verbale_bollettario_pr AS DATE) BETWEEN '$dataVerbaleInizio' AND '$dataVerbaleFine' AND CAST(da.data_inserimento_docallegato_pr AS DATE) <= CURDATE()
-                    GROUP BY da.tipo_docallegato_pr";
+                    GROUP BY da.tipo_docallegato_pr
+                    ORDER BY num_verbali DESC";
 					
 				} else if ( $dataInserimentoInizio != null and $dataInserimentoFine != null ){
 
@@ -67,7 +71,8 @@ class VerbaliDocAllegato
                     FROM db6_docallegato_pr as da
                     INNER JOIN db6_bollettario_pr AS b ON da.id_bollettario_pr_docallegato_pr = b.id_bollettario_pr
                     WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE() AND CAST(da.data_inserimento_docallegato_pr AS DATE) BETWEEN '$dataInserimentoInizio' AND '$dataInserimentoFine'
-                    GROUP BY da.tipo_docallegato_pr";
+                    GROUP BY da.tipo_docallegato_pr
+                    ORDER BY num_verbali DESC";
 
                 } else {
 
@@ -76,7 +81,8 @@ class VerbaliDocAllegato
                     FROM db6_docallegato_pr as da
                     INNER JOIN db6_bollettario_pr AS b ON da.id_bollettario_pr_docallegato_pr = b.id_bollettario_pr
                     WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE() AND CAST(da.data_inserimento_docallegato_pr AS DATE) <=CURDATE()
-                    GROUP BY da.tipo_docallegato_pr";
+                    GROUP BY da.tipo_docallegato_pr
+                    ORDER BY num_verbali DESC";
 					
 				}
 			

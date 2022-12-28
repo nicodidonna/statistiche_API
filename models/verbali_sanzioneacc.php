@@ -24,7 +24,8 @@ class VerbaliSanzioneAcc
                     FROM db2_sanzioneacc AS sa
                     INNER JOIN db2_bollettario AS b ON b.id_bollettario = sa.id_bollettario_sanzioneacc
                     WHERE CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataVerbaleInizio' AND '$dataVerbaleFine'
-                    GROUP BY sa.tipo_sanzioneacc";
+                    GROUP BY sa.tipo_sanzioneacc
+					ORDER BY num_verbali DESC";
 					
 				} else if( $dataCreazioneInizio != null and $dataCreazioneFine != null ){
 
@@ -33,7 +34,8 @@ class VerbaliSanzioneAcc
                     FROM db2_sanzioneacc AS sa
                     INNER JOIN db2_bollettario AS b ON b.id_bollettario = sa.id_bollettario_sanzioneacc
                     WHERE CAST(sa.created_at_sanzioneacc AS DATE) BETWEEN '$dataCreazioneInizio' AND '$dataCreazioneFine'
-                    GROUP BY sa.tipo_sanzioneacc";
+                    GROUP BY sa.tipo_sanzioneacc
+					ORDER BY num_verbali DESC";
 
                 } else {
 
@@ -42,7 +44,8 @@ class VerbaliSanzioneAcc
                     FROM db2_sanzioneacc AS sa
                     INNER JOIN db2_bollettario AS b ON b.id_bollettario = sa.id_bollettario_sanzioneacc
                     WHERE CAST(b.data_verbale_bollettario AS DATE) <=CURDATE() AND CAST(sa.created_at_sanzioneacc AS DATE) <=CURDATE()
-                    GROUP BY sa.tipo_sanzioneacc";
+                    GROUP BY sa.tipo_sanzioneacc
+					ORDER BY num_verbali DESC";
 					
 				}
 			
