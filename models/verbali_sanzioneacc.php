@@ -12,7 +12,7 @@ class VerbaliSanzioneAcc
 		$this->conn = Database::getInstance($id);
 		}
 
-	// READ verbali_by_docallegato
+	// READ verbali_by_sanzioneacc
 	function read($tipoRead, $dataVerbaleInizio = null, $dataVerbaleFine = null, $dataCreazioneInizio = null, $dataCreazioneFine = null)
 		{
 			if($tipoRead == 'verbali'){
