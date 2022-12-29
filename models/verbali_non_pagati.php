@@ -23,13 +23,15 @@ class VerbaliNonPagati
                 
                 $query = "SELECT b.num_ordine_bollettario AS cronologico, b.numero_bollettario AS numero_verbale, b.anno_bollettario AS anno_verbale, b.stato_bollettario AS stato_verbale, CAST(b.data_verbale_bollettario AS DATE) AS data_verbale
                 FROM db2_bollettario AS b
-                WHERE b.stato_pagamento_verbale_bollettario = 1 AND b.data_pagamento_verbale_bollettario IS NULL AND b.stato_archivio_verbale_bollettario = 0 AND CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataInizio' AND '$dataFine' ";
+                WHERE b.stato_pagamento_verbale_bollettario = 1 AND b.data_pagamento_verbale_bollettario IS NULL AND b.stato_archivio_verbale_bollettario = 0 AND CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataInizio' AND '$dataFine'
+                ORDER BY b.data_verbale_bollettario ";
                 
             } else {
                 
                 $query = "SELECT b.num_ordine_bollettario AS cronologico, b.numero_bollettario AS numero_verbale, b.anno_bollettario AS anno_verbale, b.stato_bollettario AS stato_verbale, CAST(b.data_verbale_bollettario AS DATE) AS data_verbale
                 FROM db2_bollettario AS b
-                WHERE b.stato_pagamento_verbale_bollettario = 1 AND b.data_pagamento_verbale_bollettario IS NULL AND b.stato_archivio_verbale_bollettario = 0 AND CAST(b.data_verbale_bollettario AS DATE) <=CURDATE()";
+                WHERE b.stato_pagamento_verbale_bollettario = 1 AND b.data_pagamento_verbale_bollettario IS NULL AND b.stato_archivio_verbale_bollettario = 0 AND CAST(b.data_verbale_bollettario AS DATE) <=CURDATE()
+                ORDER BY b.data_verbale_bollettario ";
                 
             }
         
@@ -42,13 +44,15 @@ class VerbaliNonPagati
                 
                 $query = "SELECT b.num_ordine_bollettario_pr AS cronologico, b.numero_bollettario_pr AS numero_verbale, b.anno_bollettario_pr AS anno_verbale, b.stato_bollettario_pr AS stato_verbale, CAST(b.data_verbale_bollettario_pr AS DATE) AS data_verbale
                 FROM db6_bollettario_pr AS b
-                WHERE b.stato_pagamento_verbale_bollettario_pr = 1 AND b.data_pagamento_verbale_bollettario_pr IS NULL AND b.stato_archivio_verbale_bollettario_pr = 0 AND CAST(b.data_verbale_bollettario_pr AS DATE) BETWEEN '$dataInizio' AND '$dataFine' ";
+                WHERE b.stato_pagamento_verbale_bollettario_pr = 1 AND b.data_pagamento_verbale_bollettario_pr IS NULL AND b.stato_archivio_verbale_bollettario_pr = 0 AND CAST(b.data_verbale_bollettario_pr AS DATE) BETWEEN '$dataInizio' AND '$dataFine' 
+                ORDER BY b.data_verbale_bollettario_pr ";
                 
             } else {
                 
                 $query = "SELECT b.num_ordine_bollettario_pr AS cronologico, b.numero_bollettario_pr AS numero_verbale, b.anno_bollettario_pr AS anno_verbale, b.stato_bollettario_pr AS stato_verbale, CAST(b.data_verbale_bollettario_pr AS DATE) AS data_verbale
                 FROM db6_bollettario_pr AS b
-                WHERE b.stato_pagamento_verbale_bollettario_pr = 1 AND b.data_pagamento_verbale_bollettario_pr IS NULL AND b.stato_archivio_verbale_bollettario_pr = 0 AND CAST(b.data_verbale_bollettario_pr AS DATE) <=CURDATE()";
+                WHERE b.stato_pagamento_verbale_bollettario_pr = 1 AND b.data_pagamento_verbale_bollettario_pr IS NULL AND b.stato_archivio_verbale_bollettario_pr = 0 AND CAST(b.data_verbale_bollettario_pr AS DATE) <=CURDATE()
+                ORDER BY b.data_verbale_bollettario_pr ";
                 
             }
 
