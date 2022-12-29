@@ -19,6 +19,10 @@ $verbali_non_pagati = new VerbaliNonPagati($db_id);
 if( isset($_GET['tipoRead']) ){
     
     $GLOBALS['tipoRead'] = $_GET['tipoRead'];
+
+    if( isset($_GET['stato_verbale']) ){
+        $GLOBALS['stato_verbale'] = $_GET['stato_verbale'];
+    }
     
     if ( isset($_GET['data_inizio']) and isset($_GET['data_fine']) ) {
         
@@ -26,11 +30,11 @@ if( isset($_GET['tipoRead']) ){
         $param = $_GET['data_inizio'];
         $param2 = $_GET['data_fine'];
         
-        $stmt = $verbali_non_pagati->read($GLOBALS['tipoRead'],$param,$param2);
+        $stmt = $verbali_non_pagati->read($GLOBALS['stato_verbale'],$GLOBALS['tipoRead'],$param,$param2);
     
     } else {
         
-        $stmt = $verbali_non_pagati->read($GLOBALS['tipoRead']);
+        $stmt = $verbali_non_pagati->read($GLOBALS['stato_verbale'],$GLOBALS['tipoRead']);
     
     }
 
@@ -93,7 +97,11 @@ if ($num > 0) {
                     
                 case '9':
                     $row['stato_verbale'] = 'Sospeso';
-                    break;    
+                    break;
+                    
+                case '11':
+                    $row['stato_verbale'] = 'Reso';
+                    break;      
                 
                 default:
                     $row['stato_verbale'] = 'Stato verbale non riconosciuto';
@@ -156,7 +164,11 @@ if ($num > 0) {
                     
                 case '9':
                     $row['stato_verbale'] = 'Sospeso';
-                    break;    
+                    break;
+                    
+                case '11':
+                    $row['stato_verbale'] = 'Reso';
+                    break;          
                 
                 default:
                     $row['stato_verbale'] = 'Stato verbale non riconosciuto';
