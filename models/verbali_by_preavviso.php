@@ -29,21 +29,21 @@ class VerbaliPreavviso
 		// select all
 		if ($dataInizio != null and $dataFine != null) {
 
-			$query = "SELECT b.num_ordine_bollettario as cronologico, b.numero_bollettario as numero_verbale, b.anno_bollettario as anno_verbale, CAST(data_verbale_bollettario AS date) as data_verbale, a.Descrizione as articolo
-					  FROM $this->table_name_1 as b
-					  INNER JOIN $this->table_name_2 as i on b.id_bollettario = i.id_bollettario_infrazione
-					  INNER JOIN $this->table_name_3 as a on i.Cod_Articolo_infrazione = a.id_articolo
-					  WHERE CAST(b.data_verbale_bollettario AS DATE) between '$dataInizio' and '$dataFine' AND b.stato_archivio_verbale_bollettario = 0
-					  ORDER BY data_verbale DESC";
+			$query = "SELECT b.num_ordine_bollettario AS cronologico, b.numero_bollettario AS numero_verbale, b.anno_bollettario AS anno_verbale, DATE_FORMAT(b.data_verbale_bollettario,'%d/%m/%Y') AS data_verbale, a.Descrizione AS articolo
+					  FROM db2_bollettario AS b
+					  INNER JOIN db2_infrazione AS i ON b.id_bollettario = i.id_bollettario_infrazione
+					  INNER JOIN articoli_new AS a ON i.Cod_Articolo_infrazione = a.id_articolo
+					  WHERE b.stato_archivio_verbale_bollettario = 0 AND CAST(b.data_verbale_bollettario AS DATE) between '$dataInizio' and '$dataFine' 
+					  ORDER BY b.data_verbale_bollettario DESC";
 
 		} else {
 
-			$query = "SELECT b.num_ordine_bollettario as cronologico, b.numero_bollettario as numero_verbale, b.anno_bollettario as anno_verbale, CAST(data_verbale_bollettario AS date) as data_verbale, a.Descrizione as articolo
-					  FROM $this->table_name_1 as b
-					  INNER JOIN $this->table_name_2 as i on b.id_bollettario = i.id_bollettario_infrazione
-					  INNER JOIN $this->table_name_3 as a on i.Cod_Articolo_infrazione = a.id_articolo
-					  WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0
-					  ORDER BY data_verbale DESC";
+			$query = "SELECT b.num_ordine_bollettario AS cronologico, b.numero_bollettario AS numero_verbale, b.anno_bollettario AS anno_verbale, DATE_FORMAT(b.data_verbale_bollettario,'%d/%m/%Y') AS data_verbale, a.Descrizione AS articolo
+					  FROM db2_bollettario AS b
+					  INNER JOIN db2_infrazione AS i ON b.id_bollettario = i.id_bollettario_infrazione
+					  INNER JOIN articoli_new AS a ON i.Cod_Articolo_infrazione = a.id_articolo
+					  WHERE b.stato_archivio_verbale_bollettario = 0 AND CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() 
+					  ORDER BY b.data_verbale_bollettario DESC";
 
 		}
 		
