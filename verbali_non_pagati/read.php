@@ -121,7 +121,7 @@ if ($num > 0) {
         //se chiedo preavvisi riempio un l'array temporaneo $table_item con i valori del risultato della query
         if($GLOBALS['tipoRead'] == 'preavvisi'){
 
-            $row['cronologico'] = $row['cronologico']."/".$row['anno_verbale'];
+            $row['cronologico'] = $row['numero_verbale']."/PR";
             $row['numero_verbale'] = $row['numero_verbale']."/".$row['anno_verbale'];
 
             switch ($row['stato_verbale']) {
@@ -176,7 +176,7 @@ if ($num > 0) {
             }
             
             $table_item = array(
-                "cronologico" => "",
+                "cronologico" => $row['cronologico'],
                 "numero_verbale" => $row['numero_verbale'],
                 "stato_verbale" => $row['stato_verbale'],
                 "data_verbale" => $row['data_verbale']
