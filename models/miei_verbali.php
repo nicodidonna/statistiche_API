@@ -29,7 +29,7 @@ class MieiVerbali
     // READ miei_verbali
     function read()
     {
-		$query = "SELECT b.tipo_bollettario, b.stato_bollettario, b.num_ordine_bollettario as cronologico, b.numero_bollettario as numero_verbale, b.anno_bollettario as anno_verbale , a.descrizione as articolo, d.nome_docallegato, d.url_docallegato
+		$query = "SELECT b.id_bollettario ,b.tipo_bollettario, b.stato_bollettario, b.num_ordine_bollettario as cronologico, b.numero_bollettario as numero_verbale, b.anno_bollettario as anno_verbale , a.descrizione as articolo, d.nome_docallegato, d.url_docallegato
         FROM $this->table_name_1 as b
         INNER JOIN $this->table_name_2 as i
         ON b.id_bollettario = i.id_bollettario_infrazione

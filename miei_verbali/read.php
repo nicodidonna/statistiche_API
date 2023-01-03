@@ -109,6 +109,7 @@ if ($num > 0) {
         };
 
         $table_item = array(
+            "id_bollettario" => $row['id_bollettario'],
             "tipo_bollettario" => $row['tipo_bollettario'],
             "stato_bollettario" => $row['stato_bollettario'],
             "cronologico" => $row['cronologico'],
