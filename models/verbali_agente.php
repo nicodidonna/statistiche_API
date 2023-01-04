@@ -30,20 +30,22 @@ class VerbaliAgente
             // select all
             if ($dataInizio != null and $dataFine != null) {
                 
-                $query = "SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(b.id_bollettario) as num_verbali
-                FROM $this->table_name_1 as b
-                INNER JOIN $this->table_name_2 as a on b.id_agente_assegn_bollettario = a.id_agente
+                $query = "SELECT ag.nome_agente, ag.cognome_agente, ag.grado_agente, ag.matricola_agente, count(b.id_bollettario) AS num_verbali
+                FROM db2_sottoscritti AS so
+                INNER JOIN db1_agente AS ag ON ag.id_agente = so.id_agente_sottoscritti
+                INNER JOIN db2_bollettario AS b ON b.id_bollettario = so.id_bollettario_sottoscritti
                 WHERE CAST(b.data_verbale_bollettario AS DATE) BETWEEN '$dataInizio' AND '$dataFine' AND b.stato_archivio_verbale_bollettario = 0
-                GROUP BY a.matricola_agente
+                GROUP BY ag.matricola_agente
                 ORDER BY num_verbali DESC";
                 
             } else {
                 
-                $query = "SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(b.id_bollettario) as num_verbali
-                FROM $this->table_name_1 as b
-                INNER JOIN $this->table_name_2 as a on b.id_agente_assegn_bollettario = a.id_agente
-                WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0
-                GROUP BY a.matricola_agente
+                $query = "SELECT ag.nome_agente, ag.cognome_agente, ag.grado_agente, ag.matricola_agente, count(b.id_bollettario) AS num_verbali
+                FROM db2_sottoscritti AS so
+                INNER JOIN db1_agente AS ag ON ag.id_agente = so.id_agente_sottoscritti
+                INNER JOIN db2_bollettario AS b ON b.id_bollettario = so.id_bollettario_sottoscritti
+                WHERE CAST(b.data_verbale_bollettario AS DATE) <=CURDATE() AND b.stato_archivio_verbale_bollettario = 0
+                GROUP BY ag.matricola_agente
                 ORDER BY num_verbali DESC";
                 
             }
@@ -55,20 +57,22 @@ class VerbaliAgente
             // select all
             if ($dataInizio != null and $dataFine != null) {
                 
-                $query = "SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(b.id_bollettario_pr) as num_verbali
-                FROM db6_bollettario_pr as b
-                INNER JOIN db1_agente as a on b.id_agente_assegn_bollettario_pr = a.id_agente
+                $query = "SELECT ag.nome_agente, ag.cognome_agente, ag.grado_agente, ag.matricola_agente, count(b.id_bollettario_pr) AS num_verbali
+                FROM db6_sottoscritti_pr AS so
+                INNER JOIN db1_agente AS ag ON ag.id_agente = so.id_agente_sottoscritti_pr
+                INNER JOIN db6_bollettario_pr AS b ON b.id_bollettario_pr = so.id_bollettario_sottoscritti_pr
                 WHERE CAST(b.data_verbale_bollettario_pr AS DATE) BETWEEN '$dataInizio' AND '$dataFine' AND b.stato_archivio_verbale_bollettario_pr = 0
-                GROUP BY a.matricola_agente
+                GROUP BY ag.matricola_agente
                 ORDER BY num_verbali DESC";
                 
             } else {
                 
-                $query = "SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(b.id_bollettario_pr) as num_verbali
-                FROM db6_bollettario_pr as b
-                INNER JOIN db1_agente as a on b.id_agente_assegn_bollettario_pr = a.id_agente
-                WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario_pr = 0
-                GROUP BY a.matricola_agente
+                $query = "SELECT ag.nome_agente, ag.cognome_agente, ag.grado_agente, ag.matricola_agente, count(b.id_bollettario_pr) AS num_verbali
+                FROM db6_sottoscritti_pr AS so
+                INNER JOIN db1_agente AS ag ON ag.id_agente = so.id_agente_sottoscritti_pr
+                INNER JOIN db6_bollettario_pr AS b ON b.id_bollettario_pr = so.id_bollettario_sottoscritti_pr
+                WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <=CURDATE() AND b.stato_archivio_verbale_bollettario_pr = 0
+                GROUP BY ag.matricola_agente
                 ORDER BY num_verbali DESC";
                 
             }
@@ -79,21 +83,26 @@ class VerbaliAgente
 
             // select all
             if ($dataInizio != null and $dataFine != null) {
-                
+
                 $query = "SELECT nome_agente, cognome_agente, grado_agente, matricola_agente, SUM(num_verbali) AS num_verbali
                 FROM(
-                SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(b.id_bollettario) as num_verbali
-                FROM db2_bollettario as b
-                INNER JOIN db1_agente as a on b.id_agente_assegn_bollettario = a.id_agente
+                SELECT ag.nome_agente, ag.cognome_agente, ag.grado_agente, ag.matricola_agente, count(b.id_bollettario) AS num_verbali
+                FROM db2_sottoscritti AS so
+                INNER JOIN db1_agente AS ag ON ag.id_agente = so.id_agente_sottoscritti
+                INNER JOIN db2_bollettario AS b ON b.id_bollettario = so.id_bollettario_sottoscritti
                 WHERE CAST(b.data_verbale_bollettario AS DATE) between '$dataInizio' AND '$dataFine' AND b.stato_archivio_verbale_bollettario = 0
-                GROUP BY a.matricola_agente
+                GROUP BY ag.matricola_agente
                 
                 UNION ALL
-                SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(b.id_bollettario_pr) as num_verbali
-                FROM db6_bollettario_pr as b
-                INNER JOIN db1_agente as a on b.id_agente_assegn_bollettario_pr = a.id_agente
+                
+                SELECT ag.nome_agente, ag.cognome_agente, ag.grado_agente, ag.matricola_agente, count(b.id_bollettario_pr) AS num_verbali
+                FROM db6_sottoscritti_pr AS so
+                INNER JOIN db1_agente AS ag ON ag.id_agente = so.id_agente_sottoscritti_pr
+                INNER JOIN db6_bollettario_pr AS b ON b.id_bollettario_pr = so.id_bollettario_sottoscritti_pr
                 WHERE CAST(b.data_verbale_bollettario_pr AS DATE) between '$dataInizio' AND '$dataFine' AND b.stato_archivio_verbale_bollettario_pr = 0
-                GROUP BY a.matricola_agente) unione
+                GROUP BY ag.matricola_agente
+                ORDER BY num_verbali DESC) unione
+                
                 GROUP BY matricola_agente
                 ORDER BY num_verbali DESC";
                 
@@ -101,18 +110,23 @@ class VerbaliAgente
                 
                 $query = "SELECT nome_agente, cognome_agente, grado_agente, matricola_agente, SUM(num_verbali) AS num_verbali
                 FROM(
-                SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(b.id_bollettario) as num_verbali
-                FROM db2_bollettario as b
-                INNER JOIN db1_agente as a on b.id_agente_assegn_bollettario = a.id_agente
-                WHERE CAST(b.data_verbale_bollettario AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0
-                GROUP BY a.matricola_agente
+                SELECT ag.nome_agente, ag.cognome_agente, ag.grado_agente, ag.matricola_agente, count(b.id_bollettario) AS num_verbali
+                FROM db2_sottoscritti AS so
+                INNER JOIN db1_agente AS ag ON ag.id_agente = so.id_agente_sottoscritti
+                INNER JOIN db2_bollettario AS b ON b.id_bollettario = so.id_bollettario_sottoscritti
+                WHERE CAST(b.data_verbale_bollettario AS DATE) <=CURDATE() AND b.stato_archivio_verbale_bollettario = 0
+                GROUP BY ag.matricola_agente
                 
                 UNION ALL
-                SELECT a.nome_agente, a.cognome_agente, a.grado_agente, a.matricola_agente, count(b.id_bollettario_pr) as num_verbali
-                FROM db6_bollettario_pr as b
-                INNER JOIN db1_agente as a on b.id_agente_assegn_bollettario_pr = a.id_agente
-                WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE() AND b.stato_archivio_verbale_bollettario_pr = 0
-                GROUP BY a.matricola_agente) unione
+                
+                SELECT ag.nome_agente, ag.cognome_agente, ag.grado_agente, ag.matricola_agente, count(b.id_bollettario_pr) AS num_verbali
+                FROM db6_sottoscritti_pr AS so
+                INNER JOIN db1_agente AS ag ON ag.id_agente = so.id_agente_sottoscritti_pr
+                INNER JOIN db6_bollettario_pr AS b ON b.id_bollettario_pr = so.id_bollettario_sottoscritti_pr
+                WHERE CAST(b.data_verbale_bollettario_pr AS DATE) <=CURDATE() AND b.stato_archivio_verbale_bollettario_pr = 0
+                GROUP BY ag.matricola_agente
+                ORDER BY num_verbali DESC) unione
+                
                 GROUP BY matricola_agente
                 ORDER BY num_verbali DESC";
                 
