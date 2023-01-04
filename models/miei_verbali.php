@@ -35,8 +35,8 @@ class MieiVerbali
         ON b.id_bollettario = i.id_bollettario_infrazione
         INNER JOIN $this->table_name_3 as a
         ON i.Cod_Articolo_infrazione = a.id_articolo
-        LEFT JOIN $this->table_name_4 as d
-        ON b.id_bollettario = d.id_docallegato
+        INNER JOIN $this->table_name_4 as d
+        ON b.id_bollettario = d.id_bollettario_docallegato
         /*L'ULTIMA RIGA DELLA QUERY SONO TEMPORANEE, PER IL TEST */
         WHERE d.id_docallegato BETWEEN 165 AND 168";
         
