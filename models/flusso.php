@@ -3,20 +3,20 @@
 
 class Flusso
 {
-
+    
     private $conn;
-    private $table_name_1 = "db2_bollettario";
-    private $table_name_2 = "db1_agente";
     
     // costruttore
     public function __construct($id)
     {
         $this->conn = Database::getInstance($id);
     }
-
+    
     // READ flusso
     function read($dataInizio = null, $dataFine = null)
     {
+        
+        try{
             
             // select all
             if ($dataInizio != null and $dataFine != null) {
@@ -222,10 +222,18 @@ class Flusso
             }
         
         
-        $stmt = $this->conn->prepare($query);
-        // execute query
-        $stmt->execute();
-        return $stmt;
+            $stmt = $this->conn->prepare($query);
+            // execute query
+            $stmt->execute();
+            return $stmt;
+    
+        } catch (PDOException $exception) {
+        
+            http_response_code(500);
+            echo json_encode(array("message" => "Errore nella query, contattare un tecnico."));
+            exit();
+        
+        }
     
     }
 

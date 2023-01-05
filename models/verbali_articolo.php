@@ -2,8 +2,8 @@
 
 
 class VerbaliArticolo
-	{
-
+{
+	
 	private $conn;
 	private $table_name_1 = "db2_infrazione";
 	private $table_name_2 = "articoli_new";
@@ -14,13 +14,16 @@ class VerbaliArticolo
 
 	// costruttore
 	public function __construct($id)
-		{
+	{
 		$this->conn = Database::getInstance($id);
-		}
-
+	}
+	
 	// READ verbali_by_articolo
 	function read($tipoRead, $dataInizio = null, $dataFine = null)
-		{
+	{
+		
+		try{
+			
 			if($tipoRead == 'verbali'){
 				
 				if($dataInizio != null and $dataFine != null){
@@ -48,7 +51,7 @@ class VerbaliArticolo
 				}
 			
 			}
-
+			
 			if($tipoRead == 'preavvisi'){
 				
 				if($dataInizio != null and $dataFine != null){
@@ -129,10 +132,18 @@ class VerbaliArticolo
 			// execute query
 			$stmt->execute();
 			return $stmt;
-
+		
+		}  catch (PDOException $exception) {
+			
+			http_response_code(500);
+			echo json_encode(array("message" => "Errore nella query, contattare un tecnico."));
+			exit();
+		
 		}
-
+	
 	}
+
+}
 
 
 ?>

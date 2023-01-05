@@ -2,22 +2,25 @@
 
 
 class VerbaliDocAllegato
-	{
+{
 
 	private $conn;
 
 	// costruttore
 	public function __construct($id)
-		{
-		$this->conn = Database::getInstance($id);
-		}
+    {
+        $this->conn = Database::getInstance($id);
+    }
 
 	// READ verbali_by_docallegato
 	function read($tipoRead, $dataVerbaleInizio = null, $dataVerbaleFine = null, $dataInserimentoInizio = null, $dataInserimentoFine = null)
-		{
-			if($tipoRead == 'verbali'){
-				
-				if( $dataVerbaleInizio != null and $dataVerbaleFine != null ){
+    {
+        
+        try{
+            
+            if($tipoRead == 'verbali'){
+                
+                if( $dataVerbaleInizio != null and $dataVerbaleFine != null ){
 
 					//query
 					$query = "SELECT da.tipo_docallegato AS tipo_documento_allegato, count(da.id_docallegato) AS num_verbali
@@ -148,17 +151,25 @@ class VerbaliDocAllegato
                     ORDER BY num_verbali DESC";
 
                 }
-			
-			}
+            
+            }
 			
 			$stmt = $this->conn->prepare($query);
 			// execute query
 			$stmt->execute();
 			return $stmt;
-
-		}
-
-	}
+        
+        }  catch (PDOException $exception) {
+            
+            http_response_code(500);
+            echo json_encode(array("message" => "Errore nella query, contattare un tecnico."));
+            exit();
+            
+        }
+		
+    }
+	
+}
 
 
 ?>

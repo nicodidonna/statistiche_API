@@ -2,8 +2,8 @@
 
 
 class TotaleVerbali
-	{
-
+{
+	
 	private $conn;
 	private $table_name_1 = "db2_infrazione";
 	private $table_name_2 = "articoli_new";
@@ -11,18 +11,21 @@ class TotaleVerbali
 	// campi di verbali_by_articolo
 	public $articolo;
 	public $num_verbali;
-
+	
 	// costruttore
 	public function __construct($id)
-		{
+	{
 		$this->conn = Database::getInstance($id);
-		}
-
+	}
+	
 	// READ verbali_by_articolo
 	function read($dataInizio = null, $dataFine = null)
-		{
+	{
+		
+		try{
+			
 			if ($dataInizio != null and $dataFine != null){
-
+				
 				//query con filtri
 				$query = "SELECT count(i.id_infrazione) as num_verbali, CAST(b.data_verbale_bollettario AS date) as data_verbali
 				FROM $this->table_name_1 as i
@@ -31,9 +34,9 @@ class TotaleVerbali
 				WHERE DATE(b.data_verbale_bollettario) between '$dataInizio' and '$dataFine' AND b.stato_archivio_verbale_bollettario = 0
 				GROUP BY data_verbali
 				ORDER BY data_verbali ASC";
-
+				
 			} else {
-
+				
 				//query senza filtri
 				$query = "SELECT count(i.id_infrazione) as num_verbali, CAST(b.data_verbale_bollettario AS date) as data_verbali
 				FROM $this->table_name_1 as i
@@ -42,7 +45,7 @@ class TotaleVerbali
 				WHERE DATE(b.data_verbale_bollettario) <= CURDATE() AND b.stato_archivio_verbale_bollettario = 0
 				GROUP BY data_verbali
 				ORDER BY data_verbali ASC";
-
+				
 			}
 			
 			$stmt = $this->conn->prepare($query);
@@ -50,9 +53,17 @@ class TotaleVerbali
 			$stmt->execute();
 			return $stmt;
 		
+		} catch (PDOException $exception) {
+			
+			http_response_code(500);
+			echo json_encode(array("message" => "Errore nella query, contattare un tecnico."));
+			exit();
+			
 		}
-
+		
 	}
+	
+}
 
 
 ?>

@@ -8,13 +8,16 @@ class VerbaliSanzioneAcc
 
 	// costruttore
 	public function __construct($id)
-		{
+	{
 		$this->conn = Database::getInstance($id);
-		}
+	}
 
 	// READ verbali_by_sanzioneacc
 	function read($tipoRead, $dataVerbaleInizio = null, $dataVerbaleFine = null, $dataCreazioneInizio = null, $dataCreazioneFine = null)
-		{
+	{
+		
+		try{
+			
 			if($tipoRead == 'verbali'){
 				
 				if( $dataVerbaleInizio != null and $dataVerbaleFine != null ){
@@ -55,10 +58,18 @@ class VerbaliSanzioneAcc
 			// execute query
 			$stmt->execute();
 			return $stmt;
-
+		
+		}  catch (PDOException $exception) {
+				
+			http_response_code(500);
+			echo json_encode(array("message" => "Errore nella query, contattare un tecnico."));
+			exit();
+			
 		}
-
+		
 	}
+	
+}
 
 
 ?>

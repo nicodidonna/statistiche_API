@@ -1,28 +1,27 @@
 <?php
 
-
 class Accertato
-	{
+{
+	
+    private $conn;
+	
+    // costruttore
+    public function __construct($id)
+    {
+        $this->conn = Database::getInstance($id);
+    }
 
-	private $conn;
-	private $table_name_1 = "db2_bollettario";
-	private $table_name_2 = "db6_bollettario_pr";
-
-	// costruttore
-	public function __construct($id)
-		{
-		$this->conn = Database::getInstance($id);
-		}
-
-
+    
     //query accertato verbali    
-	function read($tipoRead, $dataInizio = null, $dataFine = null)
-		{
-
+    function read($tipoRead, $dataInizio = null, $dataFine = null)
+    {
+            
+        try{
+            
             if($tipoRead == 'verbali'){
-
+                
                 if ($dataInizio != null and $dataFine != null) {
-
+                    
                     //query
                     $query = "SELECT istat.Imp_Ridotto_60gg_euro as importo_istat2021, istat2.Imp_Ridotto_60gg_euro as importo_istat2019, istat3.Imp_Ridotto_60gg_euro as importo_istat2018, b.spese_notifica_verbale_bollettario, b.spese_stampa_verbale_bollettario , b.tipo_bollettario, DATE(b.data_verbale_bollettario) AS data_verbale_bollettario
                     FROM db2_bollettario as b
@@ -46,13 +45,13 @@ class Accertato
                     WHERE b.stato_archivio_verbale_bollettario = 0 AND CAST(b.data_verbale_bollettario AS DATE) <= CURDATE();";
 
                 }
-
+            
             }
-
+            
             if($tipoRead == 'preavvisi'){
-
+                
                 if($dataInizio != null and $dataFine != null){
-
+                    
                     //query
                     $query = "SELECT istat.Imp_Ridotto_60gg_euro as importo_istat2021, istat2.Imp_Ridotto_60gg_euro as importo_istat2019, istat3.Imp_Ridotto_60gg_euro as importo_istat2018, b.tipo_bollettario_pr, DATE(b.data_verbale_bollettario_pr) AS data_preavviso_bollettario
                     FROM db6_bollettario_pr as b
@@ -76,20 +75,26 @@ class Accertato
                     WHERE b.stato_archivio_verbale_bollettario_pr = 0 AND CAST(b.data_verbale_bollettario_pr AS DATE) <= CURDATE(); ";
 
                 }
-
-                
-
+            
             }
             
 			
-			$stmt = $this->conn->prepare($query);
-			// execute query
-			$stmt->execute();
-			return $stmt;
-
-		}
-
-	}
+            $stmt = $this->conn->prepare($query);
+            // execute query
+            $stmt->execute();
+            return $stmt;
+            
+        } catch (PDOException $exception) {
+                
+            http_response_code(500);
+            echo json_encode(array("message" => "Errore nella query, contattare un tecnico."));
+            exit();
+            
+        } 
+		
+    }
+	
+}
 
 
 ?>

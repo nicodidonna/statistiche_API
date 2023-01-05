@@ -25,6 +25,8 @@ class VerbaliAgente
     function read($tipoRead, $dataInizio = null, $dataFine = null)
     {
 
+        try{
+
         if($tipoRead == 'verbali'){
             
             // select all
@@ -139,6 +141,14 @@ class VerbaliAgente
         // execute query
         $stmt->execute();
         return $stmt;
+
+        }  catch (PDOException $exception) {
+
+            http_response_code(500);
+            echo json_encode(array("message" => "Errore nella query, contattare un tecnico."));
+            exit();
+
+        }
     
     }
 

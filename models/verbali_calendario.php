@@ -2,7 +2,7 @@
 
 
 class VerbaliCalendario
-	{
+{
 
 	private $conn;
 	private $table_name_1 = "db2_infrazione";
@@ -15,14 +15,16 @@ class VerbaliCalendario
 
 	// costruttore
 	public function __construct($id)
-		{
+	{
 		$this->conn = Database::getInstance($id);
-		}
+	}
 
 	// READ verbali_by_articolo
 	function read($articolo = null)
-		{
-
+	{
+		
+		try{
+			
 			if($articolo != null){
 				
 				//query
@@ -34,7 +36,7 @@ class VerbaliCalendario
 				WHERE a.descrizione = '$articolo' AND b.stato_archivio_verbale_bollettario = 0
 				ORDER BY b.data_verbale_bollettario ASC;";
 
-			}else{
+			} else {
 				
 				//query
 				$query = "SELECT a.descrizione AS articolo, b.data_verbale_bollettario AS data_verbale, ag.nome_agente, ag.cognome_agente, b.num_ordine_bollettario AS cronologico, b.numero_bollettario AS numero_verbale, b.anno_bollettario as anno_verbale
@@ -44,17 +46,25 @@ class VerbaliCalendario
 				INNER JOIN $this->table_name_4 AS ag ON b.id_agente_assegn_bollettario = ag.id_agente
 				WHERE b.stato_archivio_verbale_bollettario = 0
 				ORDER BY b.data_verbale_bollettario ASC;";
-
+				
 			}
 			
 			$stmt = $this->conn->prepare($query);
 			// execute query
 			$stmt->execute();
 			return $stmt;
+		
+		}  catch (PDOException $exception) {
+			
+			http_response_code(500);
+			echo json_encode(array("message" => "Errore nella query, contattare un tecnico."));
+			exit();
 			
 		}
-
+		
 	}
+	
+}
 
 
 ?>
