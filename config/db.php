@@ -61,7 +61,9 @@ class Database
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $conn;
         } catch (PDOException $exception) {
-            echo "Errore di connessione: " . $exception->getMessage();
+            http_response_code(500);
+            echo json_encode(array("message" => "Impossibile connettersi al Database, contattare un tecnico."));
+            exit();
         }
 
     }
