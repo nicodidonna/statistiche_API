@@ -237,6 +237,56 @@ class Flusso
     
     }
 
+    function readAgenti($id_bollettario){
+        
+        try{
+            
+            $query = "SELECT ag.nome_agente, ag.cognome_agente, ag.matricola_agente
+            FROM db2_sottoscritti AS so
+            INNER JOIN db1_agente AS ag ON ag.id_agente = so.id_agente_sottoscritti
+            INNER JOIN db2_bollettario AS b ON b.id_bollettario = so.id_bollettario_sottoscritti
+            WHERE b.id_bollettario = $id_bollettario";                    
+            
+            $stmt = $this->conn->prepare($query);
+            // execute query
+            $stmt->execute();
+            return $stmt;
+        
+        } catch (PDOException $exception) {
+            
+            http_response_code(500);
+            echo json_encode(array("message" => "Errore nella query, contattare un tecnico."));
+            exit();
+        
+        }
+    
+    }
+
+    function readPersone($id_bollettario){
+
+        try{
+
+            $query = "SELECT pe.nome_persona, pe.cognome_persona, pe.sesso_persona , pe.cf_persona, c.Comune AS comune_nascita_persona, pe.data_nascita_persona, pe.indirizzo_persona, pr.tipo_proprietario, pr.id_bollettario_proprietario, pe.tipodoc_presentato_persona  AS tipodoc_persona, pe.num_doc_persona, pe.data_rilasciodoc_persona, pe.validitadoc_persona, pe.ente_rilasciodoc_persona
+            FROM db2_proprietario AS pr
+            INNER JOIN db1_persona AS pe ON pe.id_persona = pr.id_persona_proprietario
+            INNER JOIN db0_comuni AS c ON c.id_comune = pe.id_comune_nascita_persona
+            WHERE pr.id_bollettario_proprietario = '$id_bollettario'";                    
+            
+            $stmt = $this->conn->prepare($query);
+            // execute query
+            $stmt->execute();
+            return $stmt;
+
+        } catch (PDOException $exception) {
+
+            http_response_code(500);
+            echo json_encode(array("message" => "Errore nella query, contattare un tecnico."));
+            exit();
+
+        }    
+
+    }
+
 }
 
 

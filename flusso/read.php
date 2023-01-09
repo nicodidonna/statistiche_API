@@ -40,54 +40,184 @@ if ($num > 0) {
     $verbali_arr = array();
     
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        //CHIAMATA READAGENTI
+        $stmt2 = $flusso->readAgenti($row['id_verbale']);
+        $num2 = $stmt2->rowCount();
+        $temp = [];
+        if($num2 > 0){
+
+            $count = 1;
+            while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                
+                $table_item2 = array(
+                    "nome_agente".$count => $row2['nome_agente'],
+                    "cognome_agente".$count => $row2['cognome_agente'],
+                    "matricola_agente".$count => $row2['matricola_agente']
+                );
+                $count = $count + 1;
+
+                $temp = $temp + $table_item2;
+
+            }
+
+        }
+        //FINE CHIAMATA READAGENTI
+
+        //CHIAMATA READPERSONE
+        $stmt3 = $flusso->readPersone($row['id_verbale']);
+        $num3 = $stmt3->rowCount();
+        $temp2 = [];
+        if($num3 > 0){
+
+            $count2 = 1;
+            while ($row3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+
+                if($row3['tipo_proprietario'] == 0){ //SE TRASGRESSORE
+                        
+                    $table_item3 = array(
+                        "nome_trasgressore" => $row3['nome_persona'],
+                        "cognome_trasgressore" => $row3['cognome_persona'],
+                        "sesso_trasgressore" => $row3['sesso_persona'],
+                        "cf_trasgressore" => $row3['cf_persona'],
+                        "comune_nascita_trasgressore" => $row3['comune_nascita_persona'],
+                        "data_nascita_trasgressore" => $row3['data_nascita_persona'],
+                        "indirizzo_trasgressore" => $row3['indirizzo_persona'],
+                        "tipodoc_trasgressore" => $row3['tipodoc_persona'],
+                        "num_doc_trasgressore" => $row3['num_doc_persona'],
+                        "data_rilasciodoc_trasgressore" => $row3['data_rilasciodoc_persona'],
+                        "validitadoc_trasgressore" => $row3['validitadoc_persona'],
+                        "ente_rilasciodoc_trasgressore" => $row3['ente_rilasciodoc_persona']
+                    );
+
+                }
+
+                if($row3['tipo_proprietario'] == 1){ //SE PROPRIETARIO O SOLIDALE
+                        
+                    $table_item3 = array(
+                        "nome_proprietario" => $row3['nome_persona'],
+                        "cognome_proprietario" => $row3['cognome_persona'],
+                        "sesso_proprietario" => $row3['sesso_persona'],
+                        "cf_proprietario" => $row3['cf_persona'],
+                        "comune_nascita_proprietario" => $row3['comune_nascita_persona'],
+                        "data_nascita_proprietario" => $row3['data_nascita_persona'],
+                        "indirizzo_proprietario" => $row3['indirizzo_persona']
+                    );
+
+                }
+
+                if($row3['tipo_proprietario'] == 2){ //SE LOCATARIO
+                        
+                    $table_item3 = array(
+                        "nome_locatario" => $row3['nome_persona'],
+                        "cognome_locatario" => $row3['cognome_persona'],
+                        "sesso_locatario" => $row3['sesso_persona'],
+                        "cf_locatario" => $row3['cf_persona'],
+                        "comune_nascita_locatario" => $row3['comune_nascita_persona'],
+                        "data_nascita_locatario" => $row3['data_nascita_persona'],
+                        "indirizzo_locatario" => $row3['indirizzo_persona']
+                    );
+
+                }
+
+                if($row3['tipo_proprietario'] == 3){ //SE COMPROPRIETARIO
+                        
+                    $table_item3 = array(
+                        "nome_comproprietario".$count2 => $row3['nome_persona'],
+                        "cognome_comproprietario".$count2 => $row3['cognome_persona'],
+                        "sesso_comproprietario".$count2 => $row3['sesso_persona'],
+                        "cf_comproprietario".$count2 => $row3['cf_persona'],
+                        "comune_nascita_comproprietario".$count2 => $row3['comune_nascita_persona'],
+                        "data_nascita_comproprietario".$count2 => $row3['data_nascita_persona'],
+                        "indirizzo_comproprietario".$count2 => $row3['indirizzo_persona']
+                    );
+                    $count2 = $count2 + 1;
+
+                }
+
+                if($row3['tipo_proprietario'] == 4){ //SE EREDE
+                        
+                    $table_item3 = array(
+                        "nome_erede" => $row3['nome_persona'],
+                        "cognome_erede" => $row3['cognome_persona'],
+                        "sesso_erede" => $row3['sesso_persona'],
+                        "cf_erede" => $row3['cf_persona'],
+                        "comune_nascita_erede" => $row3['comune_nascita_persona'],
+                        "data_nascita_erede" => $row3['data_nascita_persona'],
+                        "indirizzo_erede" => $row3['indirizzo_persona']
+                    );
+
+                }
+
+                $temp2 = $temp2 + $table_item3;
+
+            }
+
+        }
+        //FINE CHIAMATA READPERSONE
         
         //riempio un l'array temporaneo $table_item con i valori del risultato della query
         $row['numero_verbale'] = $row['numero_verbale']."/".$row['anno_verbale'];
         
-        if($row['stato_verbale']==0){
-            $row['stato_verbale'] = 'Non Compilato';
-        }
+        //switch per assegnare l'id dello stato bollettario al suo valore
+        switch ($row['stato_verbale']) {
+            
+            case '0':
+                $row['stato_verbale'] = 'Non Compilato';
+                break;
+                
+            case '1':
+                $row['stato_verbale'] = 'Scaricato';
+                break;
 
-        if($row['stato_verbale']==1){
-            $row['stato_verbale'] = 'Scaricato';
-        }
+            case '2':
+                $row['stato_verbale'] = 'Notificato';
+                break;
 
-        if($row['stato_verbale']==2){
-            $row['stato_verbale'] = 'Notificato';
-        }
+            case '3':
+                $row['stato_verbale'] = 'Pagato';
+                break;
+                
+            case '4':
+                $row['stato_verbale'] = 'In ricorso - Nessun Pagamento';
+                break;
+                
+            case '5':
+                $row['stato_verbale'] = 'In ricorso - Pagamento effettuato';
+                break;
+                
+            case '6':
+                $row['stato_verbale'] = 'Coattivo';
+                break;
+                
+            case '7':
+                $row['stato_verbale'] = 'Pagato parzialmente';
+                break;
+                
+            case '8':
+                $row['stato_verbale'] = 'Rateizzato';
+                break;
+                
+            case '9':
+                $row['stato_verbale'] = 'Sospeso';
+                break;
+                
+            case '10':
+                $row['stato_verbale'] = 'Rinotificato';
+                break;
+                
+            case '11':
+                $row['stato_verbale'] = 'Reso';
+                break;    
 
-        if($row['stato_verbale']==3){
-            $row['stato_verbale'] = 'Pagato';
-        }
+            default:
+                $row['stato_verbale'] = 'Stato verbale non riconosciuto';
+                break;
 
-        if($row['stato_verbale']==4){
-            $row['stato_verbale'] = 'In ricorso - Nessun pagamento';
-        }
+        };
+        //fine switch stato_verbale
 
-        if($row['stato_verbale']==5){
-            $row['stato_verbale'] = 'In ricorso - Pagamento effettuato';
-        }
-
-        if($row['stato_verbale']==6){
-            $row['stato_verbale'] = 'Coattivo';
-        }
-
-        if($row['stato_verbale']==7){
-            $row['stato_verbale'] = 'Pagato parzialmente';
-        }
-
-        if($row['stato_verbale']==8){
-            $row['stato_verbale'] = 'Rateizzato';
-        }
-
-        if($row['stato_verbale']==9){
-            $row['stato_verbale'] = 'Sospeso';
-        }
-
-        if($row['stato_verbale']==11){
-            $row['stato_verbale'] = 'Reso';
-        }
-
+        //switch tipo_verbale
         if($row['tipo_verbale']==1){
             $row['tipo_verbale'] = 'Immediato';
         }
@@ -95,7 +225,9 @@ if ($num > 0) {
         if($row['tipo_verbale']==2){
             $row['tipo_verbale'] = 'Differito';
         }
+        //fine tipo_verbale
 
+        //stato_archivio_verbale
         if($row['stato_archivio_verbale']==0){
             $row['stato_archivio_verbale'] = 'Attivo';
         }
@@ -107,6 +239,7 @@ if ($num > 0) {
         if($row['stato_archivio_verbale']==2){
             $row['stato_archivio_verbale'] = 'Annullato';
         }
+        //fine stato_archivio_verbale
 
         $row['strada_violazione'] = $row['tipo_strada']." ".$row['nome_strada'];
         
@@ -119,9 +252,6 @@ if ($num > 0) {
             "stato_archivio_verbale" => $row['stato_archivio_verbale'],
             "comune_violazione" => $row['comune_violazione'],
             "data_verbale" => $row['data_verbale'],
-            "nome_agente" => $row['nome_agente'],
-            "cognome_agente" => $row['cognome_agente'],
-            "matricola_agente" => $row['matricola_agente'],
             "dichiarazione_verbale" => $row['dichiarazione_verbale'],
             "id_stradario" => $row["id_stradario"],
             "strada_violazione" => $row['strada_violazione'],
@@ -141,25 +271,6 @@ if ($num > 0) {
             "tipo_veicolo" => $row['tipo_veicolo'],
             "targa_veicolo" => $row['targa_veicolo'],
             "modello_veicolo" => $row['modello_veicolo'],
-            "nome_proprietario" => $row['nome_proprietario'],
-            "cognome_proprietario" => $row['cognome_proprietario'],
-            "sesso_proprietario" => $row['sesso_proprietario'],
-            "cf_proprietario" => $row['cf_proprietario'],
-            "comune_nascita_proprietario" => $row['comune_nascita_proprietario'],
-            "data_nascita_proprietario" => $row['data_nascita_proprietario'],
-            "indirizzo_proprietario" => $row['indirizzo_proprietario'],
-            "nome_trasgressore" => $row['nome_trasgressore'],
-            "cognome_trasgressore" => $row['cognome_trasgressore'],
-            "sesso_trasgressore" => $row['sesso_trasgressore'],
-            "cf_trasgressore" => $row['cf_trasgressore'],
-            "comune_nascita_trasgressore" => $row['comune_nascita_trasgressore'],
-            "data_nascita_trasgressore" => $row['data_nascita_trasgressore'],
-            "indirizzo_trasgressore" => $row['indirizzo_trasgressore'],
-            "tipodoc_trasgressore" => $row['tipodoc_trasgressore'],
-            "num_doc_trasgressore" => $row['num_doc_trasgressore'],
-            "data_rilasciodoc_trasgressore" => $row['data_rilasciodoc_trasgressore'],
-            "validitadoc_trasgressore" => $row['validitadoc_trasgressore'],
-            "ente_rilasciodoc_trasgressore" => $row['ente_rilasciodoc_trasgressore'],
             "ragionesociale_azienda" => $row['ragionesociale_azienda'],
             "pi_azienda" => $row['pi_azienda'],
             "comune_azienda" => $row['comune_azienda'],
@@ -167,7 +278,8 @@ if ($num > 0) {
             "pec_azienda" => $row['pec_azienda']
         );
         
-        array_push($verbali_arr, $table_item);
+        $temp = $temp + $temp2 + $table_item;
+        array_push($verbali_arr, $temp);
         
     }
     
